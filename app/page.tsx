@@ -164,7 +164,7 @@ export default function LandingPage() {
 
   // Parallax effect for hero section
   const { scrollY } = useScroll()
-  const heroOpacity = useTransform(scrollY, [0, 400], [1, 0])
+  const heroOpacity = useTransform(scrollY, [0, 400], [1, 0.8])
   const heroY = useTransform(scrollY, [0, 400], [0, 100])
 
   return (
