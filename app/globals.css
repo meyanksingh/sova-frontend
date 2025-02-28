@@ -1,0 +1,217 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+
+    --primary: 221.2 83.2% 53.3%;
+    --primary-foreground: 210 40% 98%;
+
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 221.2 83.2% 53.3%;
+
+    --radius: 0.5rem;
+
+    --chart-1: 221.2 83.2% 53.3%;
+    --chart-2: 142.1 76.2% 36.3%;
+
+    /* Prose colors */
+    --tw-prose-body: hsl(222.2 84% 4.9%);
+    --tw-prose-headings: hsl(222.2 84% 4.9%);
+    --tw-prose-lead: hsl(215.4 16.3% 46.9%);
+    --tw-prose-links: hsl(221.2 83.2% 53.3%);
+    --tw-prose-bold: hsl(222.2 84% 4.9%);
+    --tw-prose-counters: hsl(215.4 16.3% 46.9%);
+    --tw-prose-bullets: hsl(215.4 16.3% 46.9%);
+    --tw-prose-hr: hsl(214.3 31.8% 91.4%);
+    --tw-prose-quotes: hsl(222.2 84% 4.9%);
+    --tw-prose-quote-borders: hsl(214.3 31.8% 91.4%);
+    --tw-prose-captions: hsl(215.4 16.3% 46.9%);
+    --tw-prose-code: hsl(222.2 84% 4.9%);
+    --tw-prose-pre-code: hsl(210 40% 98%);
+    --tw-prose-pre-bg: hsl(222.2 84% 4.9%);
+    --tw-prose-th-borders: hsl(214.3 31.8% 91.4%);
+    --tw-prose-td-borders: hsl(214.3 31.8% 91.4%);
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 217.2 91.2% 59.8%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 224.3 76.3% 48%;
+
+    --chart-1: 217.2 91.2% 59.8%;
+    --chart-2: 142.1 70.6% 45.3%;
+
+    /* Prose colors for dark mode */
+    --tw-prose-body: hsl(210 40% 98%);
+    --tw-prose-headings: hsl(210 40% 98%);
+    --tw-prose-lead: hsl(215 20.2% 65.1%);
+    --tw-prose-links: hsl(217.2 91.2% 59.8%);
+    --tw-prose-bold: hsl(210 40% 98%);
+    --tw-prose-counters: hsl(215 20.2% 65.1%);
+    --tw-prose-bullets: hsl(215 20.2% 65.1%);
+    --tw-prose-hr: hsl(217.2 32.6% 17.5%);
+    --tw-prose-quotes: hsl(210 40% 98%);
+    --tw-prose-quote-borders: hsl(217.2 32.6% 17.5%);
+    --tw-prose-captions: hsl(215 20.2% 65.1%);
+    --tw-prose-code: hsl(210 40% 98%);
+    --tw-prose-pre-code: hsl(222.2 47.4% 11.2%);
+    --tw-prose-pre-bg: hsl(217.2 32.6% 17.5%);
+    --tw-prose-th-borders: hsl(217.2 32.6% 17.5%);
+    --tw-prose-td-borders: hsl(217.2 32.6% 17.5%);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+
+  /* Improve form elements across browsers */
+  input,
+  textarea,
+  select,
+  button {
+    font-family: inherit;
+    font-size: 100%;
+    line-height: 1.15;
+    margin: 0;
+  }
+
+  /* Remove default button styles */
+  button,
+  [type="button"],
+  [type="reset"],
+  [type="submit"] {
+    -webkit-appearance: button;
+  }
+
+  /* Improve accessibility */
+  [tabindex="-1"]:focus:not(:focus-visible) {
+    outline: 0 !important;
+  }
+
+  /* Fix iOS font sizing */
+  @supports (-webkit-touch-callout: none) {
+    html {
+      -webkit-text-size-adjust: 100%;
+    }
+  }
+}
+
+.bg-grid-pattern {
+  background-size: 100px 100px;
+  background-image: linear-gradient(to right, rgba(var(--foreground), 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(var(--foreground), 0.05) 1px, transparent 1px);
+}
+
+@keyframes blob {
+  0% {
+    transform: translate(0px, 0px) scale(1);
+  }
+  33% {
+    transform: translate(30px, -50px) scale(1.1);
+  }
+  66% {
+    transform: translate(-20px, 20px) scale(0.9);
+  }
+  100% {
+    transform: translate(0px, 0px) scale(1);
+  }
+}
+
+.animate-blob {
+  animation: blob 7s infinite;
+}
+
+.animation-delay-2000 {
+  animation-delay: 2s;
+}
+
+.animation-delay-4000 {
+  animation-delay: 4s;
+}
+
+/* Smooth scrolling for the entire page */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Better focus styles for accessibility */
+:focus-visible {
+  outline: 2px solid hsl(var(--primary));
+  outline-offset: 2px;
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.no-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+/* Better mobile tap targets */
+@media (max-width: 640px) {
+  button,
+  .button,
+  [role="button"],
+  a {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}
+
