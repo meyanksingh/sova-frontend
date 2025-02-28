@@ -331,7 +331,7 @@ export default function LandingPage() {
             <div className="relative rounded-xl overflow-hidden border border-border/40 shadow-2xl">
               <div className="absolute inset-0 bg-gradient-to-tr from-primary/5 to-chart-2/5"></div>
               <Image
-                src="https://images.unsplash.com/photo-1642790551116-18e150f248e9?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80"
+                src="/trading-dashboard.png"
                 alt="Trading Dashboard"
                 width={1200}
                 height={675}
