@@ -65,6 +65,7 @@ export default function DashboardPage() {
               <a className="mr-6 flex items-center space-x-2" href="/">
                 <span className="hidden font-bold sm:inline-block">Sova Terminal</span>
               </a>
+              
             </div>
             <div className="flex flex-1 items-center justify-between space-x-2 md:justify-end">
               <div className="w-full flex-1 md:w-auto md:flex-none">{/* Add search here if needed */}</div>
@@ -104,11 +105,8 @@ export default function DashboardPage() {
               </nav>
             </div>
           </div>
-        </header>
-
-        <div className="container max-w-screen-2xl mt-4">
           <MarketTicker />
-        </div>
+        </header>
 
         <main className="container max-w-screen-2xl p-4 md:p-6 space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">

@@ -1,57 +1,33 @@
 "use client"
 
 import { ArrowUpIcon, ArrowDownIcon } from "lucide-react"
-import { useEffect, useState } from "react"
-
-const initialData = [
-  { name: "NIFTY", value: 22456.8, change: 0.75 },
-  { name: "SENSEX", value: 73876.45, change: 0.68 },
-  { name: "BANKNIFTY", value: 48234.2, change: -0.32 },
-  { name: "USDINR", value: 83.25, change: -0.15 },
-  { name: "GOLD", value: 72450.0, change: 1.25 },
-  { name: "CRUDEOIL", value: 6780.5, change: 2.1 },
-]
+import { useTheme } from "next-themes"
 
 export function MarketTicker() {
-  const [marketData, setMarketData] = useState(initialData)
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setMarketData((prevData) =>
-        prevData.map((item) => ({
-          ...item,
-          value: item.value + (Math.random() - 0.5) * (item.value * 0.001),
-          change: item.change + (Math.random() - 0.5) * 0.05,
-        })),
-      )
-    }, 2000)
-
-    return () => clearInterval(interval)
-  }, [])
-
+  const { theme } = useTheme();
+  const marketData = [
+    { name: "NIFTY 50", value: 22456.8, change: 0.75 },
+    { name: "SENSEX", value: 73876.45, change: 0.68 },
+    { name: "BANKNIFTY", value: 48234.2, change: -0.32 },
+    { name: "USDINR", value: 83.25, change: -0.15 },
+    { name: "GOLD", value: 72450.0, change: 1.25 },
+    { name: "CRUDEOIL", value: 6780.5, change: 2.1 },
+  ];
+  console.log(theme);
   return (
-    <div className="bg-card/50 backdrop-blur supports-[backdrop-filter]:bg-background/60 rounded-lg overflow-hidden border border-border/40">
-      <div className="flex overflow-x-auto whitespace-nowrap scrollbar-hide">
-        {marketData.map((item, index) => (
-          <div key={item.name} className="inline-flex items-center px-6 py-2 border-r last:border-r-0 border-border/40">
-            <div className="flex flex-col">
-              <span className="text-sm font-medium text-muted-foreground text-primary">{item.name}</span>
-              <div className="flex items-center space-x-2">
-                <span className="font-semibold tabular-nums">{item.value.toFixed(2)}</span>
-                <span className={`flex items-center text-sm ${item.change >= 0 ? "text-green-500" : "text-red-500"}`}>
-                  {item.change >= 0 ? (
-                    <ArrowUpIcon className="h-3 w-3 mr-0.5" />
-                  ) : (
-                    <ArrowDownIcon className="h-3 w-3 mr-0.5" />
-                  )}
-                  <span className="tabular-nums">{Math.abs(item.change).toFixed(2)}%</span>
-                </span>
-              </div>
-            </div>
+    <div className="rounded-lg overflow-hidden border bg-background">
+      <div className={`flex whitespace-nowrap p-4 animate-scroll`}>
+        {marketData.concat(marketData).map((item, index) => (
+          <div key={index} className="flex items-center px-4">
+            <span className="font-bold mr-2 text-primary">{item.name}</span>
+            <span className={`mr-2 ${theme === 'dark' ? 'text-gray-200' : 'text-gray-800'}`}>{item.value.toLocaleString()}</span>
+            <span className={`flex items-center ${item.change >= 0 ? "text-green-500" : "text-red-500"}`}>
+              {item.change >= 0 ? <ArrowUpIcon className="w-4 h-4 mr-1" /> : <ArrowDownIcon className="w-4 h-4 mr-1" />}
+              <span>{Math.abs(item.change)}%</span>
+            </span>
           </div>
         ))}
       </div>
     </div>
-  )
+  );
 }
-

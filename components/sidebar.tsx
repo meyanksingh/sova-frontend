@@ -56,14 +56,24 @@ export function Sidebar({ onNavigate, currentView, isOpen, onToggle }: SidebarPr
       icon: Users,
     },
     {
-      title: "Strategies",
-      view: "strategies",
+      title: "Marketplace",
+      view: "marketplace",
+      icon: PieChart,
+    },
+    {
+      title: "Reports",
+      view: "reports",
       icon: PieChart,
     },
     {
       title: "Margin",
       view: "margin",
       icon: DollarSign,
+    },
+    {
+      title: "Settings",
+      view: "settings",
+      icon: Settings,
     },
   ]
 
@@ -85,7 +95,7 @@ export function Sidebar({ onNavigate, currentView, isOpen, onToggle }: SidebarPr
             {isOpen && <span>Sova</span>}
           </button>
 
-          {!isMobile && (
+          {isMobile && (
             <Button variant="ghost" size="icon" onClick={onToggle} className="hidden md:flex">
               {isOpen ? <ChevronLeft className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
             </Button>
