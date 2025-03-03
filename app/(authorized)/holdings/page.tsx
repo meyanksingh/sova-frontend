@@ -8,7 +8,7 @@ import { Sidebar } from "@/components/sidebar"
 // import { Holding } from "@/types/api"
 
 export default function Holdings() {
-  const [holdings, setHoldings] = useState<Holding[]>([])
+  const [holdings, setHoldings] = useState([])
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [clientId, setClientId] = useState<string>("")
