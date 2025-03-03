@@ -1,7 +1,6 @@
 "use client"
-
 import type React from "react"
-
+import { useTheme } from "@/components/theme-provider"
 import { useState, useRef, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
@@ -25,6 +24,8 @@ import Image from "next/image"
 
 export default function LandingPage() {
   const router = useRouter()
+  const { theme } = useTheme();
+  console.log(theme)
   const [isVideoModalOpen, setIsVideoModalOpen] = useState(false)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
@@ -331,11 +332,11 @@ export default function LandingPage() {
             <div className="relative rounded-xl overflow-hidden border border-border/40 shadow-2xl">
               <div className="absolute inset-0 bg-gradient-to-tr from-primary/5 to-chart-2/5"></div>
               <Image
-                src="/trading-dashboard.png"
+                src={theme === "dark" ? "/dark-trading-dashboard.png" : "/light-trading-dashboard.png"}
                 alt="Trading Dashboard"
                 width={1200}
                 height={675}
-                className="w-full h-auto"
+                className="w-full h-auto mb-12"
                 priority
               />
               <div className="absolute inset-0 bg-gradient-to-t from-background to-transparent opacity-70"></div>
