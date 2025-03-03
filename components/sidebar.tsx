@@ -16,6 +16,7 @@ import {
   Zap,
 } from "lucide-react"
 import { useEffect, useState } from "react"
+import { useRouter } from "next/navigation"
 
 interface SidebarProps {
   onNavigate: (view: string) => void
@@ -26,6 +27,7 @@ interface SidebarProps {
 
 export function Sidebar({ onNavigate, currentView, isOpen, onToggle }: SidebarProps) {
   const [isMobile, setIsMobile] = useState(false)
+  const router = useRouter()
 
   useEffect(() => {
     const checkIfMobile = () => setIsMobile(window.innerWidth < 768)
@@ -39,41 +41,49 @@ export function Sidebar({ onNavigate, currentView, isOpen, onToggle }: SidebarPr
       title: "Dashboard",
       view: "dashboard",
       icon: LayoutDashboard,
+      path: "/dashboard",
     },
     {
       title: "Positions",
       view: "positions",
       icon: BarChart2,
+      path: "/positions",
     },
     {
       title: "Holdings",
       view: "holdings",
       icon: Briefcase,
+      path: "/holdings",
     },
     {
       title: "Orderbook",
       view: "orderbook",
       icon: Users,
+      path: "/orderbook",
     },
     {
       title: "Marketplace",
       view: "marketplace",
       icon: PieChart,
+      path: "/marketplace",
     },
     {
       title: "Reports",
       view: "reports",
       icon: PieChart,
+      path: "/reports",
     },
     {
       title: "Margin",
       view: "margin",
       icon: DollarSign,
+      path: "/margin",
     },
     {
       title: "Settings",
       view: "settings",
       icon: Settings,
+      path: "/settings",
     },
   ]
 
@@ -114,8 +124,9 @@ export function Sidebar({ onNavigate, currentView, isOpen, onToggle }: SidebarPr
                   !isOpen && "px-2",
                 )}
                 onClick={() => {
-                  onNavigate(item.view)
-                  if (isMobile) onToggle()
+                  router.push(item.path); 
+                  onNavigate(item.view);
+                  if (isMobile) onToggle();
                 }}
               >
                 <item.icon className={cn("h-4 w-4", isOpen && "mr-2")} />
@@ -130,8 +141,9 @@ export function Sidebar({ onNavigate, currentView, isOpen, onToggle }: SidebarPr
             variant="outline"
             className={cn("w-full", isOpen ? "justify-start" : "justify-center")}
             onClick={() => {
-              onNavigate("settings")
-              if (isMobile) onToggle()
+              router.push("/settings"); // Navigate to settings
+              onNavigate("settings");
+              if (isMobile) onToggle();
             }}
           >
             <Settings className={cn("h-4 w-4", isOpen && "mr-2")} />
@@ -142,4 +154,3 @@ export function Sidebar({ onNavigate, currentView, isOpen, onToggle }: SidebarPr
     </>
   )
 }
-

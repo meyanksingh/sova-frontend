@@ -20,7 +20,7 @@ export function MarketTicker() {
         {marketData.concat(marketData).map((item, index) => (
           <div key={index} className="flex items-center px-4">
             <span className="font-bold mr-2 text-primary">{item.name}</span>
-            <span className={`mr-2 ${theme === 'dark' ? 'text-gray-200' : 'text-gray-800'}`}>{item.value.toLocaleString()}</span>
+            <span className={`mr-2`}>{item.value.toLocaleString()}</span>
             <span className={`flex items-center ${item.change >= 0 ? "text-green-500" : "text-red-500"}`}>
               {item.change >= 0 ? <ArrowUpIcon className="w-4 h-4 mr-1" /> : <ArrowDownIcon className="w-4 h-4 mr-1" />}
               <span>{Math.abs(item.change)}%</span>
