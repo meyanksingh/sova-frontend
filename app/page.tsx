@@ -633,7 +633,7 @@ export default function LandingPage() {
               {
                 question: "Which brokerages are supported?",
                 answer:
-                  "We currently support major brokerages including Interactive Brokers, TD Ameritrade, E*TRADE, and more. We're constantly adding new integrations based on customer demand.",
+                  "We currently support major brokerages including IIFL Blaze XTS and 5 Paisa XTS. We're constantly adding new integrations based on customer demand.",
               },
               {
                 question: "Can I use my own trading strategies?",

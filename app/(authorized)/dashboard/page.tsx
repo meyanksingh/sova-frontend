@@ -1,8 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { Bell, Moon, Sun } from "lucide-react"
-import { useTheme } from "next-themes"
+import { Bell } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Card, CardContent } from "@/components/ui/card"
@@ -15,7 +14,6 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { ThemeToggle } from "@/components/theme-toggle"
 
 export default function DashboardPage() {
-  const { theme, setTheme } = useTheme()
   const [isSidebarOpen, setIsSidebarOpen] = useState(true)
   const [currentView, setCurrentView] = useState("dashboard")
 
@@ -69,7 +67,6 @@ export default function DashboardPage() {
               
             </div>
             <div className="flex flex-1 items-center justify-between space-x-2 md:justify-end">
-              <div className="w-full flex-1 md:w-auto md:flex-none">{/* Add search here if needed */}</div>
               <nav className="flex items-center space-x-2">
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
@@ -111,7 +108,7 @@ export default function DashboardPage() {
               <Card key={index} className="bg-card/50 backdrop-blur supports-[backdrop-filter]:bg-background/60">
                 <CardContent className="p-6">
                   <div className="flex flex-col space-y-1.5">
-                    <p className="text-sm font-medium text-muted-foreground text-primary">{metric.title}</p>
+                    <p className="text-sm font-medium text-primary">{metric.title}</p>
                     <div className="flex items-center justify-between">
                       <p className="text-2xl font-bold">{metric.value}</p>
                       <div

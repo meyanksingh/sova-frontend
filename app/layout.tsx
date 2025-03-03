@@ -10,7 +10,6 @@ export const metadata: Metadata = {
   title: "Sova - Advanced Trading Execution Engine",
   description: "Deploy and execute sophisticated trading strategies with our high-performance engine.",
   metadataBase: new URL("https://getsova.com"),
-    generator: 'v0.dev'
 }
 
 export default function RootLayout({
