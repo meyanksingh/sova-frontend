@@ -26,13 +26,12 @@ export default function LoginPage() {
     e.preventDefault()
     setIsLoading(true)
     try {
-      // Simulate a successful login without API integration
-      const randomUserId = Math.random().toString(36).substring(7)
-      login(randomUserId) // Use the login function from AuthContext
+      await login(email, password)
       toast.success("Logged in successfully")
-      router.push("/dashboard")
+      router.push("/marketplace")
     } catch (error) {
-      toast.error("Failed to login")
+      console.error("Login error:", error)
+      toast.error("Failed to login. Please check your credentials.")
     } finally {
       setIsLoading(false)
     }

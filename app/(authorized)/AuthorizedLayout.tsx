@@ -22,28 +22,21 @@ export default function AuthorizedLayout({ children }: AuthorizedLayoutProps) {
   const router = useRouter();
 
   useEffect(() => {
-    console.log('AuthorizedLayout: Current isAuthenticated state:', isAuthenticated);
-    console.log('AuthorizedLayout: Loading state:', isLoading);
-    
     if (!isLoading && !isAuthenticated) {
-      console.log('AuthorizedLayout: Redirecting to login due to not authenticated');
       router.push('/login');
     }
   }, [isAuthenticated, isLoading, router]);
 
   const handleLogout = () => {
-    console.log('AuthorizedLayout: Handling logout');
     logout();
     router.push('/login');
   };
 
   if (isLoading) {
-    console.log('AuthorizedLayout: Still loading, showing loading state');
     return <div>Loading...</div>; // Or your loading component
   }
 
   if (!isAuthenticated) {
-    console.log('AuthorizedLayout: Rendering null due to not authenticated');
     return null;
   }
 

@@ -5,9 +5,10 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Badge } from "@/components/ui/badge"
 import { BrokerAuthWrapper } from "../broker-auth-wrapper"
+import { getOrderBook } from "@/lib/api"
 
 interface Order {
-  AppOrderID: string;
+  AppOrderID: number;
   TradingSymbol: string;
   OrderType: string;
   OrderSide: string;
@@ -16,6 +17,7 @@ interface Order {
   OrderStatus: string;
   ExchangeSegment: string;
   OrderGeneratedDateTime: string;
+  CancelRejectReason?: string; // Added to handle the new response structure
 }
 
 export default function Orderbook() {
@@ -24,62 +26,35 @@ export default function Orderbook() {
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
-    // Hardcoded data for orders
-    const hardcodedOrders: Order[] = [
-      {
-        AppOrderID: "1",
-        TradingSymbol: "AAPL",
-        OrderType: "Limit",
-        OrderSide: "BUY",
-        OrderQuantity: 10,
-        OrderPrice: 150.00,
-        OrderStatus: "Completed",
-        ExchangeSegment: "NASDAQ",
-        OrderGeneratedDateTime: "2023-10-01T10:00:00Z"
-      },
-      {
-        AppOrderID: "2",
-        TradingSymbol: "GOOGL",
-        OrderType: "Market",
-        OrderSide: "SELL",
-        OrderQuantity: 5,
-        OrderPrice: 2800.00,
-        OrderStatus: "Pending",
-        ExchangeSegment: "NASDAQ",
-        OrderGeneratedDateTime: "2023-10-01T10:05:00Z"
-      },
-      {
-        AppOrderID: "3",
-        TradingSymbol: "TSLA",
-        OrderType: "Stop",
-        OrderSide: "BUY",
-        OrderQuantity: 8,
-        OrderPrice: 700.00,
-        OrderStatus: "Rejected",
-        ExchangeSegment: "NASDAQ",
-        OrderGeneratedDateTime: "2023-10-01T10:10:00Z"
-      },
-    ];
+    const fetchOrders = async () => {
+      try {
+        setIsLoading(true);
+        const response = await getOrderBook();
+        const data = response.data.result || []; // Adjusted to match the new response structure
 
-    setOrders(hardcodedOrders);
-    setIsLoading(false);
-  }, [])
+        // Ensure API response has orders, otherwise set an empty array
+        setOrders(data.length ? data : []);
+      } catch (err) {
+        setError("Failed to fetch orders. Please try again.");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchOrders();
+  }, []);
 
   const getStatusVariant = (status: string) => {
     switch (status) {
-      case 'Completed':
-        return 'default';
-      case 'Rejected':
-        return 'destructive';
-      case 'Pending':
-        return 'secondary';
-      default:
-        return 'outline';
+      case 'Completed': return 'default';
+      case 'Rejected': return 'destructive';
+      case 'Pending': return 'secondary';
+      default: return 'outline';
     }
-  }
+  };
 
-  if (isLoading) return <div className="flex justify-center items-center h-screen">Loading...</div>
-  if (error) return <div className="flex justify-center items-center h-screen text-red-500">{error}</div>
+  if (isLoading) return <div className="flex justify-center items-center h-screen">Loading...</div>;
+  if (error) return <div className="flex justify-center items-center h-screen text-red-500">{error}</div>;
 
   return (
     <div className="min-h-screen bg-background">
@@ -127,9 +102,7 @@ export default function Orderbook() {
                           </Badge>
                         </TableCell>
                         <TableCell>{order.ExchangeSegment}</TableCell>
-                        <TableCell>
-                          {order.OrderGeneratedDateTime}
-                        </TableCell>
+                        <TableCell>{new Date(order.OrderGeneratedDateTime).toLocaleString()}</TableCell>
                       </TableRow>
                     ))}
                   </TableBody>
@@ -140,5 +113,5 @@ export default function Orderbook() {
         </div>
       </BrokerAuthWrapper>
     </div>
-  )
+  );
 }

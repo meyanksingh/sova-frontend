@@ -1,7 +1,6 @@
 "use client"
 
 import type React from "react"
-
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { ArrowLeft, Eye, EyeOff, Zap } from "lucide-react"
@@ -10,11 +9,12 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Checkbox } from "@/components/ui/checkbox"
 import { ThemeToggle } from "@/components/theme-toggle"
-import { register } from "@/lib/api"
 import { toast } from "react-hot-toast"
+import { useAuth } from "@/context/AuthContext"
 
 export default function RegisterPage() {
   const router = useRouter()
+  const { register } = useAuth()
   const [showPassword, setShowPassword] = useState(false)
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
@@ -32,7 +32,7 @@ export default function RegisterPage() {
     try {
       await register(name, email, password)
       toast.success("Account created successfully")
-      router.push("/dashboard")
+      router.push("/marketplace")
     } catch (error) {
       console.error("Registration error:", error)
       toast.error("Failed to create account. Please try again.")

@@ -18,12 +18,14 @@ interface BrokerAuthWrapperProps {
 }
 
 export function BrokerAuthWrapper({ children }: BrokerAuthWrapperProps) {
-  const { isAuthenticated, isBrokerAuthenticated, isLoading,logout } = useAuth()
+  const { isAuthenticated, isBrokerAuthenticated, isLoading, logout } = useAuth()
   const router = useRouter()
+  const [currentView, setCurrentView] = useState('dashboard')
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true)
 
   useEffect(() => {
     if (!isLoading && (!isAuthenticated || !isBrokerAuthenticated)) {
-      router.push('/dashboard')
+      router.push('/marketplace')
     }
   }, [isAuthenticated, isBrokerAuthenticated, isLoading, router])
 
@@ -34,14 +36,12 @@ export function BrokerAuthWrapper({ children }: BrokerAuthWrapperProps) {
   if (!isAuthenticated || !isBrokerAuthenticated) {
     return null
   }
+
   const handleLogout = () => {
     console.log('AuthorizedLayout: Handling logout');
     logout();
     router.push('/login');
   };
-
-  const [currentView, setCurrentView] = useState('dashboard')
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true)
 
   return (
     <>
@@ -88,7 +88,7 @@ export function BrokerAuthWrapper({ children }: BrokerAuthWrapperProps) {
                     <DropdownMenuContent align="end">
                       <DropdownMenuItem>Profile</DropdownMenuItem>
                       <DropdownMenuItem>Settings</DropdownMenuItem>
-                      <DropdownMenuItem onClick={handleLogout}>Logout</DropdownMenuItem> {/* Ensure handleLogout is defined */}
+                      <DropdownMenuItem onClick={handleLogout}>Logout</DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
                 </nav>

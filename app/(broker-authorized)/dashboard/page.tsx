@@ -4,7 +4,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { MarketNews } from "@/components/market-news"
 import { DailyPerformanceChart } from "@/components/daily-performance-chart"
 import InvestmentData from "@/components/investment-data"
-import AuthorizedLayout from "../AuthorizedLayout"
+import { BrokerAuthWrapper } from "../broker-auth-wrapper"
 
 export default function DashboardPage() {
   const metrics = [
@@ -36,7 +36,7 @@ export default function DashboardPage() {
 
   return (
     <div className="min-h-screen bg-background">
-      <AuthorizedLayout>
+      <BrokerAuthWrapper>
         <main className="container max-w-screen-2xl p-4 md:p-6 space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             {metrics.map((metric, index) => (
@@ -79,7 +79,7 @@ export default function DashboardPage() {
             </CardContent>
           </Card>
         </main>
-      </AuthorizedLayout>
+      </BrokerAuthWrapper>
     </div>
   )
 }

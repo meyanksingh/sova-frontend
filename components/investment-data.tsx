@@ -1,65 +1,77 @@
 "use client"
 
+import { useEffect, useState } from "react"
 import { ArrowUpIcon, ArrowDownIcon } from "lucide-react"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { getFiiData } from "@/lib/api"
+import { toast } from "sonner"
 
-const investmentData = [
-  {
-    date: "Jul 25, 2023",
-    equity: 2345.67,
-    debt: -567.89,
-    total: 1777.78,
-  },
-  {
-    date: "Jul 24, 2023",
-    equity: 1876.54,
-    debt: 234.56,
-    total: 2111.1,
-  },
-  {
-    date: "Jul 21, 2023",
-    equity: -987.65,
-    debt: -123.45,
-    total: -1111.1,
-  },
-  {
-    date: "Jul 20, 2023",
-    equity: 1234.56,
-    debt: 345.67,
-    total: 1580.23,
-  },
-  {
-    date: "Jul 19, 2023",
-    equity: -567.89,
-    debt: 789.12,
-    total: 221.23,
-  },
-]
+interface FiiDataItem {
+  BuyValue: string;
+  SellValue: string;
+  NetValue: string;
+  Date: string;
+  Category: string;
+}
 
 export default function InvestmentData() {
+  const [fiiData, setFiiData] = useState<FiiDataItem[]>([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const fetchFiiData = async () => {
+      try {
+        const response = await getFiiData()
+        if (response?.data && Array.isArray(response.data)) {
+          setFiiData(response.data)
+        } else {
+          setFiiData([])
+        }
+      } catch (error) {
+        console.error("Error fetching FII data:", error)
+        toast.error("Failed to load FII data")
+        setFiiData([])
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchFiiData()
+  }, [])
+
+  if (loading) {
+    return <div>Loading...</div>
+  }
+
+  if (fiiData.length === 0) {
+    return <div>No FII data available</div>
+  }
+
   return (
     <div className="overflow-auto">
       <Table>
         <TableHeader>
           <TableRow className="hover:bg-transparent">
             <TableHead className="w-[100px]">Date</TableHead>
-            <TableHead>Equity</TableHead>
-            <TableHead>Debt</TableHead>
-            <TableHead>Total</TableHead>
+            <TableHead>Category</TableHead>
+            <TableHead>Buy Value</TableHead>
+            <TableHead>Sell Value</TableHead>
+            <TableHead>Net Value</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
-          {investmentData.map((row, index) => (
+          {fiiData.map((row, index) => (
             <TableRow key={index} className="hover:bg-muted/50">
-              <TableCell className="font-medium">{row.date}</TableCell>
+              <TableCell className="font-medium">{row.Date}</TableCell>
+              <TableCell>{row.Category}</TableCell>
               <TableCell>
-                <ValueWithTrend value={row.equity} />
+                <ValueWithTrend value={parseFloat(row.BuyValue.replace(/,/g, ''))} />
               </TableCell>
               <TableCell>
-                <ValueWithTrend value={row.debt} />
+                <ValueWithTrend value={parseFloat(row.SellValue.replace(/,/g, ''))} />
               </TableCell>
               <TableCell>
-                <ValueWithTrend value={row.total} />
+                <ValueWithTrend value={parseFloat(row.NetValue.replace(/,/g, ''))} />
               </TableCell>
             </TableRow>
           ))}

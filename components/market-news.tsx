@@ -1,52 +1,73 @@
 "use client"
 
 import { ScrollArea } from "@/components/ui/scroll-area"
+import { useEffect, useState } from "react"
+import { getNews } from "@/lib/api"
+import { toast } from "sonner"
 
-const newsData = [
-  {
-    newsHeading: "Fed signals potential rate cuts in 2024, markets rally",
-    newsLink: "#",
-    timestamp: "2 hours ago",
-    source: "Reuters",
-  },
-  {
-    newsHeading: "NIFTY hits new all-time high crossing 22,500",
-    newsLink: "#",
-    timestamp: "3 hours ago",
-    source: "Economic Times",
-  },
-  {
-    newsHeading: "RBI maintains repo rate at 6.5%, stance unchanged",
-    newsLink: "#",
-    timestamp: "4 hours ago",
-    source: "Livemint",
-  },
-  {
-    newsHeading: "IT sector leads market gains on strong US tech performance",
-    newsLink: "#",
-    timestamp: "5 hours ago",
-    source: "Financial Express",
-  },
-  {
-    newsHeading: "Oil prices stabilize as Middle East tensions ease",
-    newsLink: "#",
-    timestamp: "6 hours ago",
-    source: "Bloomberg",
-  },
-]
+interface NewsItem {
+  newsHeading: string;
+  newsLink: string;
+  newsID: number;
+}
 
 export function MarketNews({ newsCount = 5 }: { newsCount?: number }) {
+  const [news, setNews] = useState<NewsItem[]>([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const fetchNews = async () => {
+      try {
+        const response = await getNews()
+        // Handle the nested response structure
+        if (response?.data && Array.isArray(response.data)) {
+          setNews(response.data)
+        } else {
+          setNews([])
+        }
+      } catch (err) {
+        console.error("Error fetching news:", err)
+        toast.error("Failed to load news")
+        setNews([])
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchNews()
+  }, [])
+
+  if (loading) {
+    return (
+      <ScrollArea className="h-[300px] pr-4">
+        <div className="space-y-4">
+          <div className="text-sm text-muted-foreground">Loading news...</div>
+        </div>
+      </ScrollArea>
+    )
+  }
+
+  if (!Array.isArray(news) || news.length === 0) {
+    return (
+      <ScrollArea className="h-[300px] pr-4">
+        <div className="space-y-4">
+          <div className="text-sm text-muted-foreground">No news available</div>
+        </div>
+      </ScrollArea>
+    )
+  }
+
   return (
     <ScrollArea className="h-[300px] pr-4">
       <div className="space-y-4">
-        {newsData.slice(0, newsCount).map((item, index) => (
-          <div key={index} className="border-b border-border/40 pb-3 last:border-0">
+        {news.slice(0, newsCount).map((item) => (
+          <div key={item.newsID} className="border-b border-border/40 pb-3 last:border-0">
             <a href={item.newsLink} className="text-sm font-medium hover:text-primary block transition-colors">
-              {item.newsHeading}
+              {item.newsHeading.trim()}
             </a>
             <div className="flex justify-between items-center mt-1">
-              <span className="text-xs text-muted-foreground">{item.source}</span>
-              <span className="text-xs text-muted-foreground">{item.timestamp}</span>
+              <span className="text-xs text-muted-foreground">Livemint</span>
+              <span className="text-xs text-muted-foreground">Just now</span>
             </div>
           </div>
         ))}

@@ -1,11 +1,13 @@
 "use client"
 import React, { createContext, useContext, useEffect, useState } from 'react';
+import { login as apiLogin, register as apiRegister, logout as apiLogout, brokerLogin as apiBrokerLogin } from '@/lib/api';
 
 interface AuthContextType {
   isAuthenticated: boolean;
   isBrokerAuthenticated: boolean;
   isLoading: boolean;
-  login: (user: string) => void;
+  login: (email: string, password: string) => Promise<void>;
+  register: (name: string, email: string, password: string) => Promise<void>;
   logout: () => void;
   brokerLogin: (brokerId: string) => void;
   brokerLogout: () => void;
@@ -19,38 +21,50 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    const user = localStorage.getItem('user');
+    const token = localStorage.getItem('token');
     const brokerId = localStorage.getItem('brokerId');
-    console.log('AuthContext: Checking localStorage for user:', user);
-    console.log('AuthContext: Checking localStorage for broker:', brokerId);
-    setIsAuthenticated(!!user);
+    setIsAuthenticated(!!token);
     setIsBrokerAuthenticated(!!brokerId);
-    console.log('AuthContext: Setting isAuthenticated to:', !!user);
-    console.log('AuthContext: Setting isBrokerAuthenticated to:', !!brokerId);
     setIsLoading(false);
   }, []);
 
-  const login = (user: string) => {
-    console.log('AuthContext: Logging in user:', user);
-    localStorage.setItem('user', user);
-    setIsAuthenticated(true);
+  const login = async (email: string, password: string) => {
+    try {
+      const response = await apiLogin(email, password);
+      console.log(response)
+      localStorage.setItem('token', response.data.token);
+      setIsAuthenticated(true);
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  const register = async (name: string, email: string, password: string) => {
+    try {
+      const response = await apiRegister(name, email, password);
+      return response;
+    } catch (error) {
+      throw error;
+    }
   };
 
   const logout = () => {
-    console.log('AuthContext: Logging out user');
-    localStorage.removeItem('user');
+    apiLogout();
+    localStorage.removeItem('token');
     setIsAuthenticated(false);
   };
 
-  const brokerLogin = (brokerId: string) => {
-    console.log('AuthContext: Logging in broker:', brokerId);
-    localStorage.setItem('brokerId', brokerId);
+  const brokerLogin = async () => {
+    const response = await apiBrokerLogin();
+    console.log(response)
+    localStorage.setItem('interactive-token', response.data.result.token);
+    localStorage.setItem('userID', response.data.result.userID);
     setIsBrokerAuthenticated(true);
   };
 
   const brokerLogout = () => {
-    console.log('AuthContext: Logging out broker');
-    localStorage.removeItem('brokerId');
+    localStorage.removeItem('interactive-token');
+    localStorage.removeItem('userID');
     setIsBrokerAuthenticated(false);
   };
 
@@ -60,7 +74,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         isAuthenticated, 
         isBrokerAuthenticated,
         isLoading, 
-        login, 
+        login,
+        register,
         logout,
         brokerLogin,
         brokerLogout

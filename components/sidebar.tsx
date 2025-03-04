@@ -18,6 +18,7 @@ import {
 } from "lucide-react"
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
+import { useAuth } from "@/context/AuthContext"
 
 interface SidebarProps {
   onNavigate: (view: string) => void
@@ -29,6 +30,7 @@ interface SidebarProps {
 export function Sidebar({ onNavigate, currentView, isOpen, onToggle }: SidebarProps) {
   const [isMobile, setIsMobile] = useState(false)
   const router = useRouter()
+  const { isBrokerAuthenticated } = useAuth()
 
   useEffect(() => {
     const checkIfMobile = () => setIsMobile(window.innerWidth < 768)
@@ -37,7 +39,35 @@ export function Sidebar({ onNavigate, currentView, isOpen, onToggle }: SidebarPr
     return () => window.removeEventListener("resize", checkIfMobile)
   }, [])
 
-  const sidebarNavItems = [
+  const commonNavItems = [
+    {
+      title: "Marketplace",
+      view: "marketplace",
+      icon: PieChart,
+      path: "/marketplace",
+    },
+    {
+      title: "Analytics",
+      view: "analytics",
+      icon: BarChart2,
+      path: "/analytics",
+    },
+    {
+      title: "Markets",
+      view: "markets",
+      icon: CircleDollarSign,
+      path: "/markets",
+    },
+    {
+      title: "News",
+      view: "news",
+      icon: Zap,
+      path: "/news",
+    },
+    
+  ]
+
+  const brokerNavItems = [
     {
       title: "Dashboard",
       view: "dashboard",
@@ -63,16 +93,11 @@ export function Sidebar({ onNavigate, currentView, isOpen, onToggle }: SidebarPr
       path: "/orderbook",
     },
     {
-      title: "Marketplace",
-      view: "marketplace",
-      icon: PieChart,
-      path: "/marketplace",
-    },
-    {
       title: "Margin",
       view: "margin",
       icon: DollarSign,
       path: "/margin",
+
     },
     {
       title: "Profile",
@@ -80,20 +105,9 @@ export function Sidebar({ onNavigate, currentView, isOpen, onToggle }: SidebarPr
       icon: Settings,
       path: "/profile",
     },
-    {
-      title: "Analytics",
-      view: "analytics",
-      icon: BarChart2,
-      path: "/analytics",
-    },
-    {
-      title: "Markets",
-      view: "markets",
-      icon: CircleDollarSign,
-      path: "/markets",
-    },
-    
   ]
+
+  const sidebarNavItems = [...commonNavItems, ...(isBrokerAuthenticated ? brokerNavItems : [])]
 
   return (
     <>
@@ -149,7 +163,7 @@ export function Sidebar({ onNavigate, currentView, isOpen, onToggle }: SidebarPr
             variant="outline"
             className={cn("w-full", isOpen ? "justify-start" : "justify-center")}
             onClick={() => {
-              router.push("/settings"); // Navigate to settings
+              router.push("/settings");
               onNavigate("settings");
               if (isMobile) onToggle();
             }}
