@@ -10,32 +10,28 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Checkbox } from "@/components/ui/checkbox"
 import { ThemeToggle } from "@/components/theme-toggle"
-import { register } from "@/lib/api"
 import { toast } from "react-hot-toast"
+import { useAuth } from "@/context/AuthContext"
 
-export default function RegisterPage() {
+export default function LoginPage() {
   const router = useRouter()
+  const { login } = useAuth()
   const [showPassword, setShowPassword] = useState(false)
-  const [name, setName] = useState("")
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
-  const [agreeTerms, setAgreeTerms] = useState(false)
+  const [rememberMe, setRememberMe] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (!agreeTerms) {
-      toast.error("Please agree to the Terms & Privacy Policy")
-      return
-    }
     setIsLoading(true)
     try {
-      await register(name, email, password)
-      toast.success("Account created successfully")
-      router.push("/dashboard")
+      await login(email, password)
+      toast.success("Logged in successfully")
+      router.push("/marketplace")
     } catch (error) {
-      console.error("Registration error:", error)
-      toast.error("Failed to create account. Please try again.")
+      console.error("Login error:", error)
+      toast.error("Failed to login. Please check your credentials.")
     } finally {
       setIsLoading(false)
     }
@@ -58,24 +54,11 @@ export default function RegisterPage() {
               <Zap className="h-6 w-6 text-primary" />
               <span className="text-2xl font-bold text-primary">Sova</span>
             </div>
-            <h1 className="text-2xl font-bold">Create an account</h1>
-            <p className="text-muted-foreground mt-2">Start your trading journey today</p>
+            <h1 className="text-2xl font-bold">Welcome back</h1>
+            <p className="text-muted-foreground mt-2">Sign in to your account</p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="space-y-2">
-              <Label htmlFor="name">Full Name</Label>
-              <Input
-                id="name"
-                type="text"
-                placeholder="John Doe"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                required
-                className="rounded-lg"
-              />
-            </div>
-
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
               <Input
@@ -90,7 +73,12 @@ export default function RegisterPage() {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="password">Password</Label>
+              <div className="flex items-center justify-between">
+                <Label htmlFor="password">Password</Label>
+                <Button type="button" variant="link" className="text-xs text-primary p-0 h-auto">
+                  Forgot password?
+                </Button>
+              </div>
               <div className="relative">
                 <Input
                   id="password"
@@ -115,28 +103,16 @@ export default function RegisterPage() {
                   )}
                 </Button>
               </div>
-              <p className="text-xs text-muted-foreground mt-1">Must be at least 8 characters long</p>
             </div>
 
             <div className="flex items-center space-x-2">
               <Checkbox
-                id="terms"
-                checked={agreeTerms}
-                onCheckedChange={(checked) => setAgreeTerms(checked as boolean)}
-                required
+                id="remember"
+                checked={rememberMe}
+                onCheckedChange={(checked) => setRememberMe(checked as boolean)}
               />
-              <Label htmlFor="terms" className="text-sm font-normal cursor-pointer">
-                I agree to the{" "}
-                <Button
-                  variant="link"
-                  className="p-0 h-auto text-primary"
-                  onClick={(e) => {
-                    e.preventDefault()
-                    router.push("/terms")
-                  }}
-                >
-                  Terms & Privacy Policy
-                </Button>
+              <Label htmlFor="remember" className="text-sm font-normal cursor-pointer">
+                Remember me for 30 days
               </Label>
             </div>
 
@@ -145,14 +121,14 @@ export default function RegisterPage() {
               className="w-full bg-primary hover:bg-primary/90 rounded-full shadow-md shadow-primary/20 hover:shadow-lg hover:shadow-primary/30 transition-all duration-300"
               disabled={isLoading}
             >
-              {isLoading ? "Creating Account..." : "Create Account"}
+              {isLoading ? "Signing In..." : "Sign In"}
             </Button>
           </form>
 
           <div className="text-center text-sm">
-            <span className="text-muted-foreground">Already have an account?</span>{" "}
-            <Button variant="link" className="p-0 h-auto text-primary" onClick={() => router.push("/login")}>
-              Sign in
+            <span className="text-muted-foreground">Don't have an account?</span>{" "}
+            <Button variant="link" className="p-0 h-auto text-primary" onClick={() => router.push("/register")}>
+              Sign up
             </Button>
           </div>
         </div>
@@ -160,4 +136,3 @@ export default function RegisterPage() {
     </div>
   )
 }
-

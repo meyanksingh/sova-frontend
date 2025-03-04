@@ -3,14 +3,13 @@ import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
-
+import { AuthProvider } from "@/context/AuthContext"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
   title: "Sova - Advanced Trading Execution Engine",
   description: "Deploy and execute sophisticated trading strategies with our high-performance engine.",
   metadataBase: new URL("https://getsova.com"),
-    generator: 'v0.dev'
 }
 
 export default function RootLayout({
@@ -21,9 +20,12 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
-        <ThemeProvider defaultTheme="system" storageKey="sova-theme">
-          {children}
-        </ThemeProvider>
+        <AuthProvider>
+          <ThemeProvider defaultTheme="system" storageKey="sova-theme">
+            {children}
+          </ThemeProvider>
+        </AuthProvider>
+
       </body>
     </html>
   )
