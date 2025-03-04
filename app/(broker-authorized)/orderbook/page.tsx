@@ -4,7 +4,7 @@ import { useEffect, useState } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Badge } from "@/components/ui/badge"
-import AuthorizedLayout from "../../(authorized)/AuthorizedLayout"
+import AuthorizedLayout from "../AuthorizedLayout"
 
 interface Order {
   AppOrderID: string;
@@ -87,7 +87,7 @@ export default function Orderbook() {
         <div className="container mx-auto p-6 space-y-8">
           <Card>
             <CardHeader>
-              <CardTitle>Orderbook</CardTitle>
+              <CardTitle className="text-primary">Orderbook</CardTitle>
             </CardHeader>
             <CardContent>
               {orders.length === 0 ? (

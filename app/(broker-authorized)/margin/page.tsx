@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react"
 import { MarginCard } from "@/components/margin-card"
-import AuthorizedLayout from "../../(authorized)/AuthorizedLayout"
+import AuthorizedLayout from "../AuthorizedLayout"
 
 export default function MarginPage() {
   const [marginData, setMarginData] = useState<any>(null)

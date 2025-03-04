@@ -32,7 +32,7 @@ export function MarginCard({ marginData }: { marginData: any }) {
   return (
     <Card className="w-full">
       <CardHeader>
-        <CardTitle className="text-xl">Margin Details</CardTitle>
+        <CardTitle className="text-xl text-primary">Margin Details</CardTitle>
       </CardHeader>
       <CardContent className="space-y-6">
         {/* RMS Limits Section */}

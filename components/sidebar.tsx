@@ -14,6 +14,7 @@ import {
   ChevronLeft,
   ChevronRight,
   Zap,
+  CircleDollarSign,
 } from "lucide-react"
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
@@ -85,6 +86,13 @@ export function Sidebar({ onNavigate, currentView, isOpen, onToggle }: SidebarPr
       icon: BarChart2,
       path: "/analytics",
     },
+    {
+      title: "Markets",
+      view: "markets",
+      icon: CircleDollarSign,
+      path: "/markets",
+    },
+    
   ]
 
   return (

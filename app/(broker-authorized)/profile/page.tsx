@@ -5,9 +5,8 @@ import { useEffect, useState } from "react"
 // import { api } from "@/services/api"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { toast } from "sonner"
 import { Mail, Phone, MapPin, Building, CreditCard, User, Shield } from "lucide-react"
-import AuthorizedLayout from "../../(authorized)/AuthorizedLayout" // Importing AuthorizedLayout
+import AuthorizedLayout from "../AuthorizedLayout" // Importing AuthorizedLayout
 
 export default function ProfilePage() {
   const [profile, setProfile] = useState<UserProfile | null>(null)
@@ -54,7 +53,7 @@ export default function ProfilePage() {
         {/* Personal Information */}
         <Card>
           <CardHeader>
-            <CardTitle>Personal Information</CardTitle>
+            <CardTitle className="text-primary">Personal Information</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -90,7 +89,7 @@ export default function ProfilePage() {
         {/* Address Information */}
         <Card>
           <CardHeader>
-            <CardTitle>Address Information</CardTitle>
+            <CardTitle className="text-primary">Address Information</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="space-y-2">
@@ -115,7 +114,7 @@ export default function ProfilePage() {
         {/* Exchange Details */}
         <Card>
           <CardHeader>
-            <CardTitle>Exchange Details</CardTitle>
+            <CardTitle className="text-primary">Exchange Details</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -150,7 +149,7 @@ export default function ProfilePage() {
         {/* Account Status */}
         <Card>
           <CardHeader>
-            <CardTitle>Account Status</CardTitle>
+            <CardTitle className="text-primary">Account Status</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">

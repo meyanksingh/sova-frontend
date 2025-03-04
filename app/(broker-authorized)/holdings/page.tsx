@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { MarketTicker } from "@/components/market-ticker" // Added import for MarketTicker
-import AuthorizedLayout from "../../(authorized)/AuthorizedLayout"
+import AuthorizedLayout from "../AuthorizedLayout"
 // import { api } from "@/services/api"
 // import { Holding } from "@/types/api"
 
@@ -55,13 +55,13 @@ export default function Holdings() {
 
           <Card>
             <CardHeader>
-              <CardTitle>Current Holdings</CardTitle>
+              <CardTitle className="text-primary">Current Holdings</CardTitle>
             </CardHeader>
             <CardContent>
               {holdings.length === 0 ? (
                 <div className="flex flex-col items-center justify-center py-12 text-center">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-2">No Holdings Found</h3>
-                  <p className="text-gray-500">You currently don't have any holdings in your portfolio.</p>
+                  <h3 className="text-lg font-semibold mb-2">No Holdings Found</h3>
+                  <p className="">You currently don't have any holdings in your portfolio.</p>
                 </div>
               ) : (
                 <Table>

@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react"
 import { StrategyCard } from "@/components/strategy-card"
 import { toast } from "sonner"
-import AuthorizedLayout from "../../(authorized)/AuthorizedLayout"
+import AuthorizedLayout from "../AuthorizedLayout"
 
 interface Strategy {
   id: string;
@@ -45,7 +45,7 @@ export default function StrategiesPage() {
     <div className="min-h-screen bg-background">
       <AuthorizedLayout>
         <div className="container mx-auto p-6">
-          <h1 className="text-2xl font-bold mb-4">Marketplace</h1>
+          <h1 className="text-2xl font-bold mb-4 text-primary">Marketplace</h1>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {strategies.map((strategy) => (
               <StrategyCard 

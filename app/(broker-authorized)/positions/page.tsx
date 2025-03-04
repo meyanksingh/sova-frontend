@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import AuthorizedLayout from "../../(authorized)/AuthorizedLayout"
+import AuthorizedLayout from "../AuthorizedLayout"
 
 interface Position {
   symbol: string;
@@ -40,7 +40,7 @@ export default function Positions() {
 
           <Card>
             <CardHeader>
-              <CardTitle>Current Positions</CardTitle>
+              <CardTitle className="text-primary">Current Positions</CardTitle>
             </CardHeader>
             <CardContent>
               {positions.length === 0 ? (
