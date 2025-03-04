@@ -3,12 +3,6 @@
 import { useEffect, useState } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Sidebar } from "@/components/sidebar"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import { Button } from "@/components/ui/button"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { ThemeToggle } from "@/components/theme-toggle"
-import { MarketTicker } from "@/components/market-ticker" // Added import for MarketTicker
 import AuthorizedLayout from "../AuthorizedLayout"
 // import { api } from "@/services/api"
 // import { Holding } from "@/types/api"

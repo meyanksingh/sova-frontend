@@ -1,6 +1,4 @@
 "use client"
-
-import { useEffect, useState } from "react"
 import { StrategyCard } from "@/components/strategy-card"
 import { toast } from "sonner"
 import AuthorizedLayout from "../AuthorizedLayout"

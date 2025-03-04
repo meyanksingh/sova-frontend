@@ -10,7 +10,6 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Checkbox } from "@/components/ui/checkbox"
 import { ThemeToggle } from "@/components/theme-toggle"
-import { login } from "@/lib/api"
 import { toast } from "react-hot-toast"
 
 export default function LoginPage() {
@@ -24,16 +23,12 @@ export default function LoginPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsLoading(true)
-    try {
-      await login(email, password)
-      toast.success("Logged in successfully")
-      router.push("/dashboard")
-    } catch (error) {
-      console.error("Login error:", error)
-      toast.error("Failed to login. Please check your credentials.")
-    } finally {
-      setIsLoading(false)
-    }
+    // Simulate a successful login without API integration
+    const randomUserId = Math.random().toString(36).substring(7)
+    localStorage.setItem('user', randomUserId)
+    toast.success("Logged in successfully")
+    router.push("/dashboard")
+    setIsLoading(false)
   }
 
   return (
@@ -135,4 +130,3 @@ export default function LoginPage() {
     </div>
   )
 }
-

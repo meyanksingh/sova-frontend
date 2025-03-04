@@ -1,5 +1,6 @@
 "use client"
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { Sidebar } from '@/components/sidebar';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
@@ -7,6 +8,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { MarketTicker } from '@/components/market-ticker';
 import { Bell } from 'lucide-react';
+import { useAuth } from '@/context/AuthContext';
 
 interface AuthorizedLayoutProps {
   children: React.ReactNode;
@@ -15,6 +17,23 @@ interface AuthorizedLayoutProps {
 export default function AuthorizedLayout({ children }: AuthorizedLayoutProps) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [currentView, setCurrentView] = useState('dashboard');
+  const { isAuthenticated, logout } = useAuth();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      router.push('/login');
+    }
+  }, [isAuthenticated, router]);
+
+  const handleLogout = () => {
+    logout();
+    router.push('/login');
+  };
+
+  if (!isAuthenticated) {
+    return null; // or a loading spinner
+  }
 
   return (
     <div className="min-h-screen bg-background">
@@ -36,7 +55,7 @@ export default function AuthorizedLayout({ children }: AuthorizedLayoutProps) {
               <nav className="flex items-center space-x-2">
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" size="icon" className="relative">
+                    <Button variant="ghost" size="icon" className="relative">
                       <Bell className="h-4 w-4" />
                       <span className="absolute top-0 right-0 h-2 w-2 rounded-full bg-red-600" />
                       <span className="sr-only">Toggle notifications</span>
@@ -59,7 +78,7 @@ export default function AuthorizedLayout({ children }: AuthorizedLayoutProps) {
                   <DropdownMenuContent align="end">
                     <DropdownMenuItem>Profile</DropdownMenuItem>
                     <DropdownMenuItem>Settings</DropdownMenuItem>
-                    <DropdownMenuItem>Logout</DropdownMenuItem>
+                    <DropdownMenuItem onClick={handleLogout}>Logout</DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
               </nav>
