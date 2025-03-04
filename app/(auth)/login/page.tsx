@@ -11,9 +11,11 @@ import { Label } from "@/components/ui/label"
 import { Checkbox } from "@/components/ui/checkbox"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { toast } from "react-hot-toast"
+import { useAuth } from "@/context/AuthContext"
 
 export default function LoginPage() {
   const router = useRouter()
+  const { login } = useAuth()
   const [showPassword, setShowPassword] = useState(false)
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
@@ -23,12 +25,17 @@ export default function LoginPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsLoading(true)
-    // Simulate a successful login without API integration
-    const randomUserId = Math.random().toString(36).substring(7)
-    localStorage.setItem('user', randomUserId)
-    toast.success("Logged in successfully")
-    router.push("/dashboard")
-    setIsLoading(false)
+    try {
+      // Simulate a successful login without API integration
+      const randomUserId = Math.random().toString(36).substring(7)
+      login(randomUserId) // Use the login function from AuthContext
+      toast.success("Logged in successfully")
+      router.push("/dashboard")
+    } catch (error) {
+      toast.error("Failed to login")
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return (

@@ -4,7 +4,7 @@ import { useEffect, useState } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Badge } from "@/components/ui/badge"
-import AuthorizedLayout from "../AuthorizedLayout"
+import { BrokerAuthWrapper } from "../broker-auth-wrapper"
 
 interface Order {
   AppOrderID: string;
@@ -83,7 +83,7 @@ export default function Orderbook() {
 
   return (
     <div className="min-h-screen bg-background">
-      <AuthorizedLayout>
+      <BrokerAuthWrapper>
         <div className="container mx-auto p-6 space-y-8">
           <Card>
             <CardHeader>
@@ -138,7 +138,7 @@ export default function Orderbook() {
             </CardContent>
           </Card>
         </div>
-      </AuthorizedLayout>
+      </BrokerAuthWrapper>
     </div>
   )
 }

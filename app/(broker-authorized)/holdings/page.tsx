@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import AuthorizedLayout from "../AuthorizedLayout"
+import { BrokerAuthWrapper } from "../broker-auth-wrapper"
 // import { api } from "@/services/api"
 // import { Holding } from "@/types/api"
 
@@ -44,9 +44,8 @@ export default function Holdings() {
 
   return (
     <div className="min-h-screen bg-background">
-      <AuthorizedLayout>
+      <BrokerAuthWrapper>
         <div className="container mx-auto p-6 space-y-8">
-
           <Card>
             <CardHeader>
               <CardTitle className="text-primary">Current Holdings</CardTitle>
@@ -84,7 +83,7 @@ export default function Holdings() {
             </CardContent>
           </Card>
         </div>
-      </AuthorizedLayout>
+      </BrokerAuthWrapper>
     </div>
   )
 }

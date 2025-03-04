@@ -9,6 +9,7 @@ import { ThemeToggle } from '@/components/theme-toggle';
 import { MarketTicker } from '@/components/market-ticker';
 import { Bell } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
+import { BrokerLoginButton } from '@/components/broker-login-button';
 
 interface AuthorizedLayoutProps {
   children: React.ReactNode;
@@ -17,22 +18,33 @@ interface AuthorizedLayoutProps {
 export default function AuthorizedLayout({ children }: AuthorizedLayoutProps) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [currentView, setCurrentView] = useState('dashboard');
-  const { isAuthenticated, logout } = useAuth();
+  const { isAuthenticated, isLoading, logout } = useAuth();
   const router = useRouter();
 
   useEffect(() => {
-    if (!isAuthenticated) {
+    console.log('AuthorizedLayout: Current isAuthenticated state:', isAuthenticated);
+    console.log('AuthorizedLayout: Loading state:', isLoading);
+    
+    if (!isLoading && !isAuthenticated) {
+      console.log('AuthorizedLayout: Redirecting to login due to not authenticated');
       router.push('/login');
     }
-  }, [isAuthenticated, router]);
+  }, [isAuthenticated, isLoading, router]);
 
   const handleLogout = () => {
+    console.log('AuthorizedLayout: Handling logout');
     logout();
     router.push('/login');
   };
 
+  if (isLoading) {
+    console.log('AuthorizedLayout: Still loading, showing loading state');
+    return <div>Loading...</div>; // Or your loading component
+  }
+
   if (!isAuthenticated) {
-    return null; // or a loading spinner
+    console.log('AuthorizedLayout: Rendering null due to not authenticated');
+    return null;
   }
 
   return (
@@ -53,6 +65,7 @@ export default function AuthorizedLayout({ children }: AuthorizedLayoutProps) {
             </div>
             <div className="flex flex-1 items-center justify-between space-x-2 md:justify-end">
               <nav className="flex items-center space-x-2">
+                <BrokerLoginButton />
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <Button variant="ghost" size="icon" className="relative">

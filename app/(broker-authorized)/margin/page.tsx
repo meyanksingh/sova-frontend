@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react"
 import { MarginCard } from "@/components/margin-card"
-import AuthorizedLayout from "../AuthorizedLayout"
+import { BrokerAuthWrapper } from "../broker-auth-wrapper"
 
 export default function MarginPage() {
   const [marginData, setMarginData] = useState<any>(null)
@@ -46,10 +46,10 @@ export default function MarginPage() {
   if (error) return <div className="flex justify-center items-center h-screen text-red-500">{error}</div>
 
   return (
-    <AuthorizedLayout>
+    <BrokerAuthWrapper>
       <div className="container mx-auto p-6">
         {marginData && <MarginCard marginData={marginData} />}
       </div>
-    </AuthorizedLayout>
+    </BrokerAuthWrapper>
   )
 }

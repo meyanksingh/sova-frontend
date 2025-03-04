@@ -6,7 +6,7 @@ import { useEffect, useState } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Mail, Phone, MapPin, Building, CreditCard, User, Shield } from "lucide-react"
-import AuthorizedLayout from "../AuthorizedLayout" // Importing AuthorizedLayout
+import { BrokerAuthWrapper } from "../broker-auth-wrapper"
 
 export default function ProfilePage() {
   const [profile, setProfile] = useState<UserProfile | null>(null)
@@ -48,7 +48,7 @@ export default function ProfilePage() {
   }
 
   return (
-    <AuthorizedLayout> 
+    <BrokerAuthWrapper>
       <div className="container mx-auto p-6 space-y-6">
         {/* Personal Information */}
         <Card>
@@ -172,6 +172,6 @@ export default function ProfilePage() {
           </CardContent>
         </Card>
       </div>
-    </AuthorizedLayout>
+    </BrokerAuthWrapper>
   )
 }
