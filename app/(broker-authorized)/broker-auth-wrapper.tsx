@@ -11,7 +11,6 @@ import { Bell } from 'lucide-react' // Ensure to import Bell
 import { ThemeToggle } from '@/components/theme-toggle' // Ensure to import ThemeToggle
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar' // Ensure to import Avatar components
 import { MarketTicker } from '@/components/market-ticker' // Ensure to import MarketTicker
-// import { logout } from '@/lib/api'
 
 interface BrokerAuthWrapperProps {
   children: React.ReactNode
@@ -20,7 +19,7 @@ interface BrokerAuthWrapperProps {
 export function BrokerAuthWrapper({ children }: BrokerAuthWrapperProps) {
   const { isAuthenticated, isBrokerAuthenticated, isLoading, logout } = useAuth()
   const router = useRouter()
-  const [currentView, setCurrentView] = useState('dashboard')
+  const [currentView, setCurrentView] = useState('holdings')
   const [isSidebarOpen, setIsSidebarOpen] = useState(true)
 
   useEffect(() => {
@@ -38,7 +37,6 @@ export function BrokerAuthWrapper({ children }: BrokerAuthWrapperProps) {
   }
 
   const handleLogout = () => {
-    console.log('AuthorizedLayout: Handling logout');
     logout();
     router.push('/login');
   };

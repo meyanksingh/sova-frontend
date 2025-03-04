@@ -64,7 +64,6 @@ export function Sidebar({ onNavigate, currentView, isOpen, onToggle }: SidebarPr
       icon: Zap,
       path: "/news",
     },
-    
   ]
 
   const brokerNavItems = [
@@ -97,7 +96,6 @@ export function Sidebar({ onNavigate, currentView, isOpen, onToggle }: SidebarPr
       view: "margin",
       icon: DollarSign,
       path: "/margin",
-
     },
     {
       title: "Profile",
@@ -107,7 +105,7 @@ export function Sidebar({ onNavigate, currentView, isOpen, onToggle }: SidebarPr
     },
   ]
 
-  const sidebarNavItems = [...commonNavItems, ...(isBrokerAuthenticated ? brokerNavItems : [])]
+  const sidebarNavItems = isBrokerAuthenticated ? brokerNavItems : commonNavItems;
 
   return (
     <>

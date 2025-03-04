@@ -17,7 +17,7 @@ interface AuthorizedLayoutProps {
 
 export default function AuthorizedLayout({ children }: AuthorizedLayoutProps) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-  const [currentView, setCurrentView] = useState('dashboard');
+  const [currentView, setCurrentView] = useState('Marketplace');
   const { isAuthenticated, isLoading, logout } = useAuth();
   const router = useRouter();
 
@@ -33,7 +33,7 @@ export default function AuthorizedLayout({ children }: AuthorizedLayoutProps) {
   };
 
   if (isLoading) {
-    return <div>Loading...</div>; // Or your loading component
+    return <div>Loading...</div>; 
   }
 
   if (!isAuthenticated) {
