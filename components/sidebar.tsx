@@ -68,22 +68,22 @@ export function Sidebar({ onNavigate, currentView, isOpen, onToggle }: SidebarPr
       path: "/marketplace",
     },
     {
-      title: "Reports",
-      view: "reports",
-      icon: PieChart,
-      path: "/reports",
-    },
-    {
       title: "Margin",
       view: "margin",
       icon: DollarSign,
       path: "/margin",
     },
     {
-      title: "Settings",
-      view: "settings",
+      title: "Profile",
+      view: "profile",
       icon: Settings,
-      path: "/settings",
+      path: "/profile",
+    },
+    {
+      title: "Analytics",
+      view: "analytics",
+      icon: BarChart2,
+      path: "/analytics",
     },
   ]
 
