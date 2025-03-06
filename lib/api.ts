@@ -90,7 +90,6 @@ export const getNews = async () => {
 export const getFiiData = async () => {
   try {
     const response = await api.get("/user/fii-data")
-    console.log(response.data)
     return response.data
   } catch (error) {
     console.error("Error fetching FII data:", error)
@@ -196,29 +195,28 @@ export const getProfile = async () => {
         "interactive-token": interactiveToken,
       },
     });
-    console.log("api ts", response.data)
     return response.data
   } catch (error) {
     throw error
   }
 }
 
-export const deployStrategy = async (strategyId: string) => {
+export const deployStrategy = async (strategy_id: string) => {
   try {
     const authToken = localStorage.getItem("token");
     const interactiveToken = localStorage.getItem("interactive-token");
     const response = await api.post("/user/deploy", {
-      strategyId: strategyId,
+      strategy_id: strategy_id,
     }, {
       headers: {
         "Authorization": `${authToken}`,
         "interactive-token": interactiveToken,
       },
     });
-    console.log("response", response.data)
     return response.data
   } catch (error) {
-    throw error
+    console.error("Error deploying strategy:", error);
+    throw error;
   }
 }
 

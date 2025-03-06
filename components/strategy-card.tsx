@@ -7,7 +7,6 @@ import { Button } from "@/components/ui/button"
 import { CalendarDays, Activity, Rocket } from "lucide-react"
 
 interface StrategyCardProps {
-  id: string;
   name: string;
   description: string;
   category: string;
@@ -18,7 +17,6 @@ interface StrategyCardProps {
 }
 
 export function StrategyCard({ 
-  id,
   name, 
   description, 
   category, 
@@ -48,7 +46,6 @@ export function StrategyCard({
       <CardHeader className="space-y-1">
         <div className="flex items-center justify-between">
           <CardTitle className="text-xl">{name}</CardTitle>
-          <h1>{id}</h1>
           <Badge variant={isActive ? 'default' : 'secondary'}>
             {isActive ? 'Active' : 'Inactive'}
           </Badge>

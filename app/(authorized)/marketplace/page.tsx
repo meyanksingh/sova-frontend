@@ -52,8 +52,10 @@ export default function StrategiesPage() {
 
     try {
       const response = await deployStrategy(strategyId);
-      console.log("Deployment response:", response);
-      toast.success("Strategy deployed successfully");
+      if (response.type === "success") {
+        toast.success("Strategy deployed successfully");
+        router.push(`/strategy/${strategyId}`);
+      }
     } catch (error) {
       console.error("Error deploying strategy:", error);
       toast.error("Failed to deploy strategy");
@@ -77,7 +79,6 @@ export default function StrategiesPage() {
               {strategies.map((strategy) => (
                 <StrategyCard 
                   key={strategy.id} 
-                  id={strategy.id}
                   name={strategy.name}
                   description={strategy.description}
                   category={strategy.category}

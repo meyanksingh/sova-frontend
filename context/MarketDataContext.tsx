@@ -81,7 +81,6 @@ export function MarketDataProvider({ children }: { children: ReactNode }) {
 
     ws.onopen = () => {
       setIsConnected(true);
-      console.log("WebSocket connected");
       ws.send(JSON.stringify({ action: "join", room: "market-data" }));
     };
 
