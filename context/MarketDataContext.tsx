@@ -76,11 +76,12 @@ export function MarketDataProvider({ children }: { children: ReactNode }) {
       wsRef.current.close();
     }
 
-    const ws = new WebSocket("ws://localhost:3420/");
+    const ws = new WebSocket("ws://api.meyank.me/");
     wsRef.current = ws;
 
     ws.onopen = () => {
       setIsConnected(true);
+      console.log("Websocket Connected")
       ws.send(JSON.stringify({ action: "join", room: "market-data" }));
     };
 
