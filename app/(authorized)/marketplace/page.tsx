@@ -3,7 +3,8 @@ import { useState, useEffect } from "react"
 import { StrategyCard } from "@/components/strategy-card"
 import { toast } from "sonner"
 import AuthorizedLayout from "../AuthorizedLayout"
-import { getStrategies } from "@/lib/api"
+import { getStrategies, deployStrategy } from "@/lib/api"
+import { useRouter } from "next/navigation"
 
 interface Strategy {
   id: string;
@@ -18,9 +19,11 @@ interface Strategy {
 export default function StrategiesPage() {
   const [strategies, setStrategies] = useState<Strategy[]>([])
   const [loading, setLoading] = useState(true)
+  const router = useRouter()
 
   useEffect(() => {
     const fetchStrategies = async () => {
+      setLoading(true)
       try {
         const response = await getStrategies()
         setStrategies(response)
@@ -38,19 +41,24 @@ export default function StrategiesPage() {
 
   const handleDeploy = async (strategyId: string) => {
     if (!strategyId) {
-      toast.error("Strategy ID is missing")
-      return
+      toast.error("Strategy ID is missing");
+      return;
     }
 
     if (strategyId === '00000000-0000-0000-0000-000000000000') {
-      toast.error("Invalid strategy ID")
-      return
+      toast.error("Invalid strategy ID");
+      return;
     }
 
-    // Simulate deployment success
-    toast.success("Strategy deployed successfully")
+    try {
+      const response = await deployStrategy(strategyId);
+      console.log("Deployment response:", response);
+      toast.success("Strategy deployed successfully");
+    } catch (error) {
+      console.error("Error deploying strategy:", error);
+      toast.error("Failed to deploy strategy");
+    }
   }
-
   return (
     <div className="min-h-screen bg-background">
       <AuthorizedLayout>
@@ -69,6 +77,7 @@ export default function StrategiesPage() {
               {strategies.map((strategy) => (
                 <StrategyCard 
                   key={strategy.id} 
+                  id={strategy.id}
                   name={strategy.name}
                   description={strategy.description}
                   category={strategy.category}

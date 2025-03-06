@@ -77,7 +77,6 @@ export function MarketDataProvider({ children }: { children: ReactNode }) {
     }
 
     const ws = new WebSocket("ws://localhost:3420/");
-    console.log("Connecting to WebSocket");
     wsRef.current = ws;
 
     ws.onopen = () => {
@@ -89,7 +88,6 @@ export function MarketDataProvider({ children }: { children: ReactNode }) {
     ws.onmessage = (event) => {
       try {
         const data: MarketUpdate = JSON.parse(event.data);
-        console.log("Market update received:", data);
         processMarketUpdate(data);
       } catch (error) {
         console.error("WebSocket data processing error:", error);

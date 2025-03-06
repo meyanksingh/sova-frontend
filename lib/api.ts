@@ -203,5 +203,24 @@ export const getProfile = async () => {
   }
 }
 
+export const deployStrategy = async (strategyId: string) => {
+  try {
+    const authToken = localStorage.getItem("token");
+    const interactiveToken = localStorage.getItem("interactive-token");
+    const response = await api.post("/user/deploy", {
+      strategyId: strategyId,
+    }, {
+      headers: {
+        "Authorization": `${authToken}`,
+        "interactive-token": interactiveToken,
+      },
+    });
+    console.log("response", response.data)
+    return response.data
+  } catch (error) {
+    throw error
+  }
+}
+
 export default api
 
