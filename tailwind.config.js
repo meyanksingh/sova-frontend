@@ -1,7 +1,13 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   darkMode: ["class"],
-  content: ["./pages/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}", "./app/**/*.{ts,tsx}", "./src/**/*.{ts,tsx}", "*.{js,ts,jsx,tsx,mdx}"],
+  content: [
+    "./pages/**/*.{ts,tsx}",
+    "./components/**/*.{ts,tsx}",
+    "./app/**/*.{ts,tsx}",
+    "./src/**/*.{ts,tsx}",
+    "*.{js,ts,jsx,tsx,mdx}",
+  ],
   theme: {
     container: {
       center: true,
@@ -58,6 +64,14 @@ module.exports = {
           from: { height: 0 },
           to: { height: "var(--radix-accordion-content-height)" },
         },
+        marquee: {
+          from: { transform: "translateX(0)" },
+          to: { transform: "translateX(calc(-100% - var(--gap)))" },
+        },
+        "marquee-vertical": {
+          from: { transform: "translateY(0)" },
+          to: { transform: "translateY(calc(-100% - var(--gap)))" },
+        },
         "accordion-up": {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: 0 },
@@ -66,112 +80,114 @@ module.exports = {
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        marquee: "marquee var(--duration) linear infinite",
+        "marquee-vertical": "marquee-vertical var(--duration) linear infinite",
       },
       typography: {
         DEFAULT: {
           css: {
-            maxWidth: '100%',
-            color: 'var(--tw-prose-body)',
+            maxWidth: "100%",
+            color: "var(--tw-prose-body)",
             '[class~="lead"]': {
-              color: 'var(--tw-prose-lead)',
+              color: "var(--tw-prose-lead)",
             },
             a: {
-              color: 'var(--tw-prose-links)',
-              textDecoration: 'underline',
-              fontWeight: '500',
+              color: "var(--tw-prose-links)",
+              textDecoration: "underline",
+              fontWeight: "500",
             },
             strong: {
-              color: 'var(--tw-prose-bold)',
-              fontWeight: '600',
+              color: "var(--tw-prose-bold)",
+              fontWeight: "600",
             },
             'ol[type="A"]': {
-              listStyleType: 'upper-alpha',
+              listStyleType: "upper-alpha",
             },
             'ol[type="a"]': {
-              listStyleType: 'lower-alpha',
+              listStyleType: "lower-alpha",
             },
             'ol[type="A" s]': {
-              listStyleType: 'upper-alpha',
+              listStyleType: "upper-alpha",
             },
             'ol[type="a" s]': {
-              listStyleType: 'lower-alpha',
+              listStyleType: "lower-alpha",
             },
             'ol[type="I"]': {
-              listStyleType: 'upper-roman',
+              listStyleType: "upper-roman",
             },
             'ol[type="i"]': {
-              listStyleType: 'lower-roman',
+              listStyleType: "lower-roman",
             },
             'ol[type="I" s]': {
-              listStyleType: 'upper-roman',
+              listStyleType: "upper-roman",
             },
             'ol[type="i" s]': {
-              listStyleType: 'lower-roman',
+              listStyleType: "lower-roman",
             },
             'ol[type="1"]': {
-              listStyleType: 'decimal',
+              listStyleType: "decimal",
             },
-            'ol > li': {
-              position: 'relative',
+            "ol > li": {
+              position: "relative",
             },
-            'ul > li': {
-              position: 'relative',
+            "ul > li": {
+              position: "relative",
             },
             h1: {
-              color: 'var(--tw-prose-headings)',
-              fontWeight: '800',
+              color: "var(--tw-prose-headings)",
+              fontWeight: "800",
             },
             h2: {
-              color: 'var(--tw-prose-headings)',
-              fontWeight: '700',
+              color: "var(--tw-prose-headings)",
+              fontWeight: "700",
             },
             h3: {
-              color: 'var(--tw-prose-headings)',
-              fontWeight: '600',
+              color: "var(--tw-prose-headings)",
+              fontWeight: "600",
             },
             h4: {
-              color: 'var(--tw-prose-headings)',
-              fontWeight: '600',
+              color: "var(--tw-prose-headings)",
+              fontWeight: "600",
             },
-            'figure > *': {
-              margin: '0',
+            "figure > *": {
+              margin: "0",
             },
             figcaption: {
-              color: 'var(--tw-prose-captions)',
+              color: "var(--tw-prose-captions)",
             },
             code: {
-              color: 'var(--tw-prose-code)',
-              fontWeight: '600',
+              color: "var(--tw-prose-code)",
+              fontWeight: "600",
             },
-            'code::before': {
+            "code::before": {
               content: '"`"',
             },
-            'code::after': {
+            "code::after": {
               content: '"`"',
             },
-            'a code': {
-              color: 'inherit',
+            "a code": {
+              color: "inherit",
             },
-            'h1 code': {
-              color: 'inherit',
+            "h1 code": {
+              color: "inherit",
             },
-            'h2 code': {
-              color: 'inherit',
+            "h2 code": {
+              color: "inherit",
             },
-            'h3 code': {
-              color: 'inherit',
+            "h3 code": {
+              color: "inherit",
             },
-            'h4 code': {
-              color: 'inherit',
+            "h4 code": {
+              color: "inherit",
             },
-            'blockquote p:first-of-type::before': {
-              content: 'none',
+            "blockquote p:first-of-type::before": {
+              content: "none",
             },
-            'blockquote p:last-of-type::after': {
-              content: 'none',
+            "blockquote p:last-of-type::after": {
+              content: "none",
             },
-            'hr': {
-              borderColor: 'var(--tw-prose-hr)',
+            hr: {
+              borderColor: "var(--tw-prose-hr)",
               borderTopWidth: 1,
             },
           },
@@ -179,6 +195,5 @@ module.exports = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate"), require('@tailwindcss/typography')],
-}
-
+  plugins: [require("tailwindcss-animate"), require("@tailwindcss/typography")],
+};
