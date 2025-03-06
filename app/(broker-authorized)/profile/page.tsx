@@ -35,7 +35,6 @@ export default function ProfilePage() {
       try {
         setLoading(true);
         const response = await getProfile();
-        console.log(response)
         // Ensure response has correct structure
         if (response?.data?.result) {
           setProfile(response.data.result);
