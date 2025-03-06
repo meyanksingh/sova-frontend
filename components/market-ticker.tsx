@@ -7,8 +7,8 @@ export function MarketTicker() {
   const { marketData } = useMarketData();
   return (
       <div className="rounded-lg overflow-hidden border bg-background">
-        <div className={`flex whitespace-nowrap p-4 animate-scroll`}>
-          {marketData.concat(marketData).map((item, index) => (
+        <div className={`flex whitespace-nowrap p-4`}>
+          {marketData.map((item, index) => (
           <div key={index} className="flex items-center px-4">
             <span className="font-bold mr-2 text-primary">{item.name}</span>
             <span className={`mr-2`}>{item.value.toLocaleString()}</span>
