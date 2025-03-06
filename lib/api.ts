@@ -185,21 +185,7 @@ export const getHoldings = async () => {
   } 
 }
 
-export const getProfile = async () => {
-  try {
-    const authToken = localStorage.getItem("token");
-    const interactiveToken = localStorage.getItem("interactive-token");
-    const response = await api.get("/user/profile", { 
-      headers: {
-        "Authorization": `${authToken}`,  
-        "interactive-token": interactiveToken,
-      },
-    });
-    return response.data
-  } catch (error) {
-    throw error
-  }
-}
+
 
 export const deployStrategy = async (strategy_id: string) => {
   try {
