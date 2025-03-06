@@ -2,7 +2,6 @@
 
 import { useMarketData } from "@/context/MarketDataContext";
 import { ArrowUpIcon, ArrowDownIcon } from "lucide-react";
-import { motion } from "framer-motion";
 import { Marquee } from "./magicui/marquee";
 
 export function MarketTicker() {
