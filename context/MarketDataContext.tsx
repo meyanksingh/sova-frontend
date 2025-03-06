@@ -76,7 +76,7 @@ export function MarketDataProvider({ children }: { children: ReactNode }) {
       wsRef.current.close();
     }
 
-    const ws = new WebSocket("wss://api.meyank.me/");
+    const ws = new WebSocket("wss://api.meyank.me/ws/");
     wsRef.current = ws;
 
     ws.onopen = () => {
