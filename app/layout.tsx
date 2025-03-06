@@ -21,9 +21,11 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
         <AuthProvider>
-          <ThemeProvider defaultTheme="system" storageKey="sova-theme">
-            {children}
-          </ThemeProvider>
+          <MarketDataProvider>
+            <ThemeProvider defaultTheme="system" storageKey="sova-theme">
+              {children}
+            </ThemeProvider>
+          </MarketDataProvider>
         </AuthProvider>
 
       </body>
@@ -34,3 +36,4 @@ export default function RootLayout({
 
 
 import './globals.css'
+import { MarketDataProvider } from "@/context/MarketDataContext"

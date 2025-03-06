@@ -98,6 +98,12 @@ export function Sidebar({ onNavigate, currentView, isOpen, onToggle }: SidebarPr
       path: "/margin",
     },
     {
+      title: "Marketplace",
+      view: "marketplace",
+      icon: PieChart,
+      path: "/marketplace",
+    },
+    {
       title: "Profile",
       view: "profile",
       icon: Settings,
