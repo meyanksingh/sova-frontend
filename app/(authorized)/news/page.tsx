@@ -1,11 +1,11 @@
-import AuthorizedLayout from "../AuthorizedLayout"
+import React from 'react'
 
-export default function NewsPage() {
+const page = () => {
   return (
-    <AuthorizedLayout>
-      <div>
-        <h1>News</h1>
-      </div>
-    </AuthorizedLayout>
+    <div>
+      
+    </div>
   )
 }
+
+export default page

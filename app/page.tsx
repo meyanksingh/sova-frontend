@@ -20,8 +20,9 @@ import {
 } from "lucide-react"
 import { VideoModal } from "@/components/video-modal"
 import { ThemeToggle } from "@/components/theme-toggle"
+import Navbar from "@/components/Navbar"
 import Image from "next/image"
-
+import Stats from "@/components/Stats"
 export default function LandingPage() {
   const router = useRouter()
   const { theme } = useTheme();
@@ -87,11 +88,7 @@ export default function LandingPage() {
     },
   ]
 
-  const stats = [
-    { value: "50ms", label: "Average Execution Time" },
-    { value: "99.9%", label: "System Uptime" },
-    { value: "100+", label: "Pre-built Strategies" },
-  ]
+  
 
   const testimonials = [
     {
@@ -171,109 +168,14 @@ export default function LandingPage() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-background via-background/95 to-background">
       {/* Navigation */}
-      <nav
-        className={`fixed top-0 w-full z-50 border-b border-border/40 transition-all duration-300 ${
-          isScrolled
-            ? "bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 shadow-sm"
-            : "bg-transparent"
-        }`}
-      >
-        <div className="container mx-auto h-16 flex items-center justify-between px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center space-x-2">
-            <Zap className="h-5 w-5 sm:h-6 sm:w-6 text-primary" />
-            <span className="text-lg sm:text-xl font-bold text-primary">Sova</span>
-          </div>
-
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-6">
-            <Button variant="ghost" className="text-sm font-medium" onClick={() => scrollToSection(featuresRef)}>
-              Features
-            </Button>
-            <Button variant="ghost" className="text-sm font-medium" onClick={() => scrollToSection(pricingRef)}>
-              Pricing
-            </Button>
-            <Button variant="ghost" className="text-sm font-medium" onClick={() => scrollToSection(testimonialsRef)}>
-              Testimonials
-            </Button>
-            <Button variant="ghost" className="text-sm font-medium" onClick={() => scrollToSection(faqRef)}>
-              FAQ
-            </Button>
-          </div>
-
-          <div className="flex items-center gap-2 sm:gap-4">
-            <ThemeToggle />
-
-            {/* Desktop CTA */}
-            <div className="hidden sm:flex items-center gap-2 sm:gap-4">
-              <Button
-                variant="ghost"
-                onClick={() => router.push("/login")}
-                className="text-sm sm:text-base font-medium px-2 sm:px-4"
-              >
-                Sign In
-              </Button>
-              <Button
-                onClick={() => router.push("/register")}
-                className="bg-primary hover:bg-primary/90 text-sm sm:text-base font-medium px-3 sm:px-6 rounded-full"
-              >
-                Get Started
-              </Button>
-            </div>
-
-            {/* Mobile menu button */}
-            <Button
-              variant="ghost"
-              size="icon"
-              className="md:hidden"
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              aria-label="Toggle menu"
-            >
-              <div className="w-6 flex flex-col items-center justify-center gap-1.5">
-                <span
-                  className={`block h-0.5 w-full bg-foreground transition-all duration-300 ${isMenuOpen ? "rotate-45 translate-y-2" : ""}`}
-                ></span>
-                <span
-                  className={`block h-0.5 w-full bg-foreground transition-all duration-300 ${isMenuOpen ? "opacity-0" : "opacity-100"}`}
-                ></span>
-                <span
-                  className={`block h-0.5 w-full bg-foreground transition-all duration-300 ${isMenuOpen ? "-rotate-45 -translate-y-2" : ""}`}
-                ></span>
-              </div>
-            </Button>
-          </div>
-        </div>
-
-        {/* Mobile Navigation Menu */}
-        <div
-          className={`md:hidden overflow-hidden transition-all duration-300 ${isMenuOpen ? "max-h-[400px] border-b border-border/40" : "max-h-0"}`}
-        >
-          <div className="container mx-auto px-4 py-4 flex flex-col space-y-3 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-            <Button variant="ghost" className="justify-start" onClick={() => scrollToSection(featuresRef)}>
-              Features
-            </Button>
-            <Button variant="ghost" className="justify-start" onClick={() => scrollToSection(pricingRef)}>
-              Pricing
-            </Button>
-            <Button variant="ghost" className="justify-start" onClick={() => scrollToSection(testimonialsRef)}>
-              Testimonials
-            </Button>
-            <Button variant="ghost" className="justify-start" onClick={() => scrollToSection(faqRef)}>
-              FAQ
-            </Button>
-            <div className="pt-2 flex flex-col gap-3 border-t border-border/40">
-              <Button variant="outline" onClick={() => router.push("/login")} className="w-full justify-center">
-                Sign In
-              </Button>
-              <Button
-                onClick={() => router.push("/register")}
-                className="w-full justify-center bg-primary hover:bg-primary/90 rounded-full"
-              >
-                Get Started
-              </Button>
-            </div>
-          </div>
-        </div>
-      </nav>
+      <Navbar 
+        isScrolled={isScrolled}
+        onScrollToSection={scrollToSection}
+        featuresRef={featuresRef}
+        pricingRef={pricingRef}
+        testimonialsRef={testimonialsRef}
+        faqRef={faqRef}
+      />
 
       {/* Hero Section */}
       <section className="pt-24 sm:pt-32 lg:pt-36 pb-16 sm:pb-20 relative overflow-hidden">
@@ -285,20 +187,22 @@ export default function LandingPage() {
           style={{ opacity: heroOpacity, y: heroY }}
           className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10"
         >
-          <div className="max-w-4xl mx-auto text-center">
+          <div className="max-w-6xl mx-auto text-center">
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.2 }}
-              className="inline-block px-3 sm:px-4 py-1.5 mb-4 sm:mb-6 rounded-full bg-primary/10 text-primary text-xs sm:text-sm font-medium"
+              className="inline-block animate-blink px-3 sm:px-4 py-1.5 mb-1 sm:mb-2 rounded-full bg-primary/10 text-primary space-x-2 text-xs sm:text-2xl font-medium"
             >
-              Launching Soon 🚀
+              <span className="ml-2 inline-block w-4 h-4 rounded-full bg-primary " />
+             <span>Launching Soon</span> 
+              
             </motion.div>
-            <h1 className="text-3xl sm:text-4xl lg:text-6xl font-bold tracking-tight mb-4 sm:mb-6">
+            <h1 className="text-3xl sm:text-4xl lg:text-7xl font-bold tracking-tight mb-4 sm:mb-6">
               Advanced Trading
               <span className="text-primary"> Execution Engine</span>
             </h1>
-            <p className="text-base sm:text-lg lg:text-xl text-muted-foreground mb-8 sm:mb-10 max-w-3xl mx-auto px-4">
+            <p className="text-base sm:text-lg lg:text-xl text-muted-foreground mb-8 sm:mb-10 max-w-5xl mx-auto px-4">
               Deploy and execute sophisticated trading strategies with our high-performance engine. Experience
               millisecond-level execution and professional-grade reliability.
             </p>
@@ -357,26 +261,7 @@ export default function LandingPage() {
       </section>
 
       {/* Stats Section */}
-      <section className="py-16 sm:py-20 bg-muted/30 border-y border-border/40 relative">
-        <div className="absolute inset-0 bg-grid-pattern opacity-[0.02] pointer-events-none"></div>
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-12 lg:gap-16">
-            {stats.map((stat, index) => (
-              <motion.div
-                key={stat.label}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                viewport={{ once: true }}
-                className="text-center p-6 sm:p-8 rounded-2xl bg-card/50 backdrop-blur-sm border border-border/40 hover:border-primary/20 transition-all duration-300 hover:shadow-lg hover:shadow-primary/5"
-              >
-                <div className="text-3xl sm:text-4xl font-bold text-primary mb-2">{stat.value}</div>
-                <div className="text-sm sm:text-base text-muted-foreground font-medium">{stat.label}</div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <Stats />
 
       {/* Features Section */}
       <section ref={featuresRef} className="py-16 sm:py-20 lg:py-24 relative scroll-mt-20">
@@ -389,11 +274,11 @@ export default function LandingPage() {
             viewport={{ once: true }}
             className="text-center max-w-3xl mx-auto mb-12 sm:mb-16"
           >
-            <div className="inline-block px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4">
+            <div className="inline-block px-5 py-2 rounded-full bg-primary/10 text-primary text-xl font-medium mb-4">
               Features
             </div>
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4">Powerful Execution Features</h2>
-            <p className="text-muted-foreground text-base sm:text-lg">
+            <h2 className="text-2xl sm:text-4xl lg:text-6xl font-bold mb-4">Powerful Execution Features</h2>
+            <p className="text-muted-foreground text-lg sm:text-xl">
               Our execution engine is built with performance and reliability at its core, providing you with the tools
               you need to succeed in today's markets.
             </p>
@@ -434,8 +319,8 @@ export default function LandingPage() {
             <div className="inline-block px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4">
               How It Works
             </div>
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4">Simple Integration, Powerful Results</h2>
-            <p className="text-muted-foreground text-base sm:text-lg">
+            <h2 className="text-2xl sm:text-4xl lg:text-6xl font-bold mb-4">Simple Integration, Powerful Results</h2>
+            <p className="text-muted-foreground text-lg sm:text-xl">
               Get up and running in minutes with our streamlined onboarding process
             </p>
           </motion.div>
@@ -484,7 +369,7 @@ export default function LandingPage() {
       {/* Testimonials Section */}
       <section
         ref={testimonialsRef}
-        className="py-16 sm:py-20 lg:py-24 bg-muted/30 border-y border-border/40 relative scroll-mt-20"
+        className="py-16 sm:py-20 lg:py-24  border-y border-border/40 relative scroll-mt-20"
       >
         <div className="absolute inset-0 bg-grid-pattern opacity-[0.02] pointer-events-none"></div>
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -495,11 +380,11 @@ export default function LandingPage() {
             viewport={{ once: true }}
             className="text-center max-w-3xl mx-auto mb-12 sm:mb-16"
           >
-            <div className="inline-block px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4">
+            <div className="inline-block px-5 py-2 rounded-full bg-primary/10 text-primary text-xl font-medium mb-4">
               Testimonials
             </div>
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4">Trusted by Trading Professionals</h2>
-            <p className="text-muted-foreground text-base sm:text-lg">
+            <h2 className="text-2xl sm:text-4xl lg:text-6xl font-bold mb-4">Trusted by Trading Professionals</h2>
+            <p className="text-muted-foreground text-lg sm:text-xl">
               See what our customers have to say about their experience with Sova
             </p>
           </motion.div>
@@ -541,18 +426,18 @@ export default function LandingPage() {
             whileInView={{ opacity: 1 }}
             transition={{ duration: 0.5 }}
             viewport={{ once: true }}
-            className="text-center max-w-3xl mx-auto mb-12 sm:mb-16"
+            className="text-center max-w-5xl mx-auto mb-12 sm:mb-16"
           >
-            <div className="inline-block px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4">
+            <div className="inline-block px-5 py-2 rounded-full bg-primary/10 text-primary text-xl font-medium mb-4">
               Pricing
             </div>
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4">Transparent Pricing for Every Need</h2>
-            <p className="text-muted-foreground text-base sm:text-lg">
+            <h2 className="text-2xl sm:text-4xl lg:text-6xl font-bold mb-4">Transparent Pricing for Every Need</h2>
+            <p className="text-muted-foreground text-lg sm:text-xl">
               Choose the plan that's right for your trading volume and strategy complexity
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 mx-auto">
             {pricingTiers.map((tier, index) => (
               <motion.div
                 key={tier.name}
@@ -603,7 +488,7 @@ export default function LandingPage() {
       {/* FAQ Section */}
       <section
         ref={faqRef}
-        className="py-16 sm:py-20 lg:py-24 bg-muted/30 border-y border-border/40 relative scroll-mt-20"
+        className="py-16 sm:py-20 lg:py-24  border-y border-border/40 relative scroll-mt-20"
       >
         <div className="absolute inset-0 bg-grid-pattern opacity-[0.02] pointer-events-none"></div>
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -710,13 +595,12 @@ export default function LandingPage() {
       </section>
 
       {/* Footer */}
-      <footer className="py-12 sm:py-16 bg-muted/30 border-t border-border/40 relative">
+      <footer className="py-12 sm:py-16  border-t border-border/40 relative">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
             <div>
               <div className="flex items-center space-x-2 mb-4">
-                <Zap className="h-5 w-5 text-primary" />
-                <span className="text-lg font-bold text-primary">Sova</span>
+                <span className="text-white font-bold text-2xl">Sova</span>
               </div>
               <p className="text-sm text-muted-foreground mb-4">
                 Advanced trading execution engine for professional traders and institutions.

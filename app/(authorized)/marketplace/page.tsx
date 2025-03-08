@@ -14,6 +14,10 @@ interface Strategy {
   is_active: boolean;
   created_at: string;
   updated_at: string;
+  minimum_margin?: number;
+  three_month_return?: number;
+  six_month_return?: number;
+  one_year_return?: number;
 }
 
 export default function StrategiesPage() {
@@ -26,7 +30,17 @@ export default function StrategiesPage() {
       setLoading(true)
       try {
         const response = await getStrategies()
-        setStrategies(response)
+        console.log("response:::::::::::",response);
+        
+        const enhancedStrategies = response.map((strategy: Strategy) => ({
+          ...strategy,
+          minimum_margin: Math.round((Math.random() * 2 + 0.5) * 10) / 10,
+          three_month_return: Math.round((Math.random() * 10 + 5) * 10) / 10,
+          six_month_return: Math.round((Math.random() * 15 + 10) * 10) / 10,
+          one_year_return: Math.round((Math.random() * 20 + 15) * 10) / 10,
+        }));
+        
+        setStrategies(enhancedStrategies)
       } catch (err) {
         console.error("Error fetching strategies:", err)
         toast.error("Failed to load strategies")
@@ -52,6 +66,8 @@ export default function StrategiesPage() {
 
     try {
       const response = await deployStrategy(strategyId);
+      console.log(response);
+      
       if (response.type === "success") {
         toast.success("Strategy deployed successfully");
         router.push(`/strategy/${strategyId}`);
@@ -82,10 +98,14 @@ export default function StrategiesPage() {
                   name={strategy.name}
                   description={strategy.description}
                   category={strategy.category}
+                  minimumMargin={strategy.minimum_margin}
+                  threeMonthReturn={strategy.three_month_return}
+                  sixMonthReturn={strategy.six_month_return}
+                  oneYearReturn={strategy.one_year_return}
                   createdAt={strategy.created_at}
                   updatedAt={strategy.updated_at}
                   isActive={strategy.is_active}
-                  onDeploy={() => handleDeploy(strategy.id)}
+                  onDeploy={() => handleDeploy(String(strategy.id))}
                 />
               ))}
             </div>

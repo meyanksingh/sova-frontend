@@ -1,92 +1,90 @@
 "use client"
 
-import { useState } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { CalendarDays, Activity, Rocket } from "lucide-react"
 
 interface StrategyCardProps {
   name: string;
   description: string;
   category: string;
+  minimumMargin?: number;
+  threeMonthReturn?: number;
+  sixMonthReturn?: number;
+  oneYearReturn?: number;
   createdAt: string;
   updatedAt: string;
   isActive: boolean;
-  onDeploy: () => Promise<void>;
+  onDeploy?: () => Promise<void>;
 }
 
 export function StrategyCard({ 
   name, 
   description, 
   category, 
-  createdAt, 
-  updatedAt, 
-  isActive, 
-  onDeploy 
+  minimumMargin,
+  threeMonthReturn,
+  sixMonthReturn,
+  oneYearReturn,
+  createdAt,
+  updatedAt,
+  isActive,
+  onDeploy
 }: StrategyCardProps) {
-  const [isDeploying, setIsDeploying] = useState(false)
-
-  const handleDeploy = async () => {
-    setIsDeploying(true)
-    try {
-      await onDeploy()
-    } finally {
-      setIsDeploying(false)
-    }
-  }
-
-  const getDeployButtonTooltip = () => {
-    if (!isActive) return "Strategy is inactive"
-    return ""
-  }
+  // Check if we have performance metrics
+  const hasPerformanceMetrics = minimumMargin !== undefined || 
+    threeMonthReturn !== undefined || 
+    sixMonthReturn !== undefined || 
+    oneYearReturn !== undefined;
 
   return (
-    <Card className="hover:bg-accent/5 transition-colors">
+    <Card className="hover:bg-accent/5 h-80 transition-colors flex flex-col">
       <CardHeader className="space-y-1">
         <div className="flex items-center justify-between">
           <CardTitle className="text-xl">{name}</CardTitle>
-          <Badge variant={isActive ? 'default' : 'secondary'}>
+          <Badge variant={isActive ? 'default' : 'secondary'} className="rounded-full px-3 py-1">
             {isActive ? 'Active' : 'Inactive'}
           </Badge>
         </div>
-        <Badge variant="outline" className="w-fit">
-          {category}
-        </Badge>
+        <p className="text-sm  text-white/80">{description}</p>
       </CardHeader>
-      <CardContent className="space-y-4">
-        <p className="text-sm text-muted-foreground line-clamp-2">
-          {description}
-        </p>
-        
-        <div className="space-y-2 text-sm">
-          <div className="flex items-center">
-            <CalendarDays className="mr-2 h-4 w-4 opacity-70" />
-            <span className="text-muted-foreground">Created: </span>
-            <span className="ml-1">
-              {new Date(createdAt).toLocaleDateString()}
-            </span>
+      <CardContent className="flex-1 flex flex-col">
+        <div className="space-y-4 flex-1">
+          <div>
+            <span className="text-sm font-medium text-muted-foreground">Category: </span>
+            <Badge variant="outline" className="ml-1">{category}</Badge>
           </div>
-          <div className="flex items-center">
-            <Activity className="mr-2 h-4 w-4 opacity-70" />
-            <span className="text-muted-foreground">Last Updated: </span>
-            <span className="ml-1">
-              {new Date(updatedAt).toLocaleDateString()}
-            </span>
+          
+          <div className="space-y-4">
+            <div className="grid grid-cols-2 gap-6">
+                <div>
+                  <p className="text-lg font-medium text-white">Min Margin: <span className="text-white">{minimumMargin? `${minimumMargin}%` : "N/A"}</span></p>
+                </div>
+                <div>
+                  <p className="text-lg font-medium text-white">3M Return: <span className="text-white"> {threeMonthReturn? `${threeMonthReturn}%` : "N/A"}</span></p>
+                </div>
+            </div>
+            <div className="grid grid-cols-2 gap-6">
+                <div>
+                  <p className="text-lg font-medium text-white">6M Return: <span className="text-white">{sixMonthReturn? `${sixMonthReturn}%` : "N/A"}</span></p>
+                </div>
+                <div>
+                  <p className="text-lg font-medium text-white">1Y Return: <span className="text-white">{oneYearReturn? `${oneYearReturn}%` : "N/A"}</span></p>
+                </div>
+            </div>
           </div>
+         
         </div>
 
-        <div className="mt-4">
-          <Button
-            className="w-full"
-            onClick={handleDeploy}
-            disabled={isDeploying || !isActive}
-            title={getDeployButtonTooltip()}
+        {onDeploy && (
+          <Button 
+            className="w-full mt-4" 
+            onClick={onDeploy}
+            disabled={!isActive}
           >
-            <Rocket className="mr-2 h-4 w-4" />
-            {isDeploying ? "Deploying..." : "Deploy Strategy"}
+            Deploy Strategy
           </Button>
-        </div>
+        )}
       </CardContent>
     </Card>
   )

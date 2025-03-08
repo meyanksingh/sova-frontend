@@ -19,7 +19,7 @@ import {
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import { useAuth } from "@/context/AuthContext"
-
+import Link from "next/link"
 interface SidebarProps {
   onNavigate: (view: string) => void
   currentView: string
@@ -127,8 +127,11 @@ export function Sidebar({ onNavigate, currentView, isOpen, onToggle }: SidebarPr
       >
         <div className="flex h-14 items-center border-b px-4 justify-between">
           <button className="flex items-center gap-2 font-semibold" onClick={() => onNavigate("dashboard")}>
-            <Zap className="h-6 w-6 text-primary" />
-            {isOpen && <span>Sova</span>}
+            {isOpen && 
+            <Link href="/">
+            <span>Sova</span>
+            </Link>
+            }
           </button>
 
           {isMobile && (
