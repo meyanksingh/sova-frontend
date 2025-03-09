@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useAuth } from '@/context/AuthContext'
+import { useView } from '@/context/ViewContext'
 import { Sidebar } from '@/components/sidebar' // Ensure to import Sidebar
 import { BrokerLoginButton } from '@/components/broker-login-button' // Ensure to import BrokerLoginButton
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from '@/components/ui/dropdown-menu' // Ensure to import DropdownMenu components
@@ -18,8 +19,8 @@ interface BrokerAuthWrapperProps {
 
 export function BrokerAuthWrapper({ children }: BrokerAuthWrapperProps) {
   const { isAuthenticated, isBrokerAuthenticated, isLoading, logout } = useAuth()
+  const { currentView } = useView() // Use the shared context
   const router = useRouter()
-  const [currentView, setCurrentView] = useState('holdings')
   const [isSidebarOpen, setIsSidebarOpen] = useState(true)
 
   useEffect(() => {
@@ -45,10 +46,8 @@ export function BrokerAuthWrapper({ children }: BrokerAuthWrapperProps) {
     <>
       <div className="min-h-screen bg-background">
         <Sidebar
-          onNavigate={setCurrentView} // Ensure setCurrentView is defined
-          currentView={currentView} // Ensure currentView is defined
-          isOpen={isSidebarOpen} // Ensure isSidebarOpen is defined
-          onToggle={() => setIsSidebarOpen(!isSidebarOpen)} // Ensure setIsSidebarOpen is defined
+          isOpen={isSidebarOpen}
+          onToggle={() => setIsSidebarOpen(!isSidebarOpen)}
         />
         <div className={`transition-all duration-300 ${isSidebarOpen ? "md:ml-64" : "md:ml-16"}`}>
           <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">

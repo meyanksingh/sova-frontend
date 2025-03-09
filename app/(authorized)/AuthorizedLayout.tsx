@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Sidebar } from '@/components/sidebar';
+import { useView } from '@/context/ViewContext';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -17,7 +18,7 @@ interface AuthorizedLayoutProps {
 
 export default function AuthorizedLayout({ children }: AuthorizedLayoutProps) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-  const [currentView, setCurrentView] = useState('Marketplace');
+  const { currentView } = useView();
   const { isAuthenticated, isLoading, logout } = useAuth();
   const router = useRouter();
 
@@ -43,8 +44,6 @@ export default function AuthorizedLayout({ children }: AuthorizedLayoutProps) {
   return (
     <div className="min-h-screen bg-background">
       <Sidebar
-        onNavigate={setCurrentView}
-        currentView={currentView}
         isOpen={isSidebarOpen}
         onToggle={() => setIsSidebarOpen(!isSidebarOpen)}
       />

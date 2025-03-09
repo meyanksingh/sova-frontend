@@ -6,6 +6,8 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { toast } from "react-hot-toast"
 import { useAuth } from "@/context/AuthContext"
+import { useView } from "@/context/ViewContext"
+import { useRouter } from "next/navigation"
 import {
   Dialog,
   DialogContent,
@@ -18,6 +20,9 @@ export function BrokerLoginButton() {
   const [brokerId, setBrokerId] = useState("")
   const [isLoading, setIsLoading] = useState(false)
   const { brokerLogin, isBrokerAuthenticated, brokerLogout } = useAuth()
+  const { setCurrentView } = useView()
+  const router = useRouter()
+  const [isDialogOpen, setIsDialogOpen] = useState(false)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -25,6 +30,11 @@ export function BrokerLoginButton() {
     try {
       brokerLogin(brokerId)
       toast.success("Broker logged in successfully")
+      
+      setIsDialogOpen(false)
+      
+      setCurrentView("dashboard")
+      router.push("/dashboard")
     } catch (error) {
       toast.error("Failed to login as broker")
     } finally {
@@ -32,11 +42,17 @@ export function BrokerLoginButton() {
     }
   }
 
+  const handleLogout = () => {
+    brokerLogout()
+    setCurrentView("explore")
+    router.push("/explore")
+  }
+
   if (isBrokerAuthenticated) {
     return (
       <Button 
         variant="outline" 
-        onClick={brokerLogout}
+        onClick={handleLogout}
         className="text-sm"
       >
         Broker Logout
@@ -45,9 +61,9 @@ export function BrokerLoginButton() {
   }
 
   return (
-    <Dialog>
+    <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline" className="text-sm">
+        <Button variant="outline" className="text-sm" onClick={() => setIsDialogOpen(true)}>
           Broker Login
         </Button>
       </DialogTrigger>

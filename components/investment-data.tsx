@@ -1,10 +1,7 @@
 "use client"
 
-import { useEffect, useState } from "react"
 import { ArrowUpIcon, ArrowDownIcon } from "lucide-react"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { getFiiData } from "@/lib/api"
-import { toast } from "sonner"
 
 interface FiiDataItem {
   BuyValue: string;
@@ -15,37 +12,29 @@ interface FiiDataItem {
 }
 
 export default function InvestmentData() {
-  const [fiiData, setFiiData] = useState<FiiDataItem[]>([])
-  const [loading, setLoading] = useState(true)
-
-  useEffect(() => {
-    const fetchFiiData = async () => {
-      try {
-        const response = await getFiiData()
-        if (response?.data && Array.isArray(response.data)) {
-          setFiiData(response.data)
-        } else {
-          setFiiData([])
-        }
-      } catch (error) {
-        console.error("Error fetching FII data:", error)
-        toast.error("Failed to load FII data")
-        setFiiData([])
-      } finally {
-        setLoading(false)
-      }
+  const fiiData: FiiDataItem[] = [
+    {
+      Date: "10-Mar-2025",
+      Category: "FII/FPI",
+      BuyValue: "25678.45",
+      SellValue: "23456.78", 
+      NetValue: "2221.67"
+    },
+    {
+      Date: "09-Mar-2024",
+      Category: "DII",
+      BuyValue: "18765.32",
+      SellValue: "17654.21",
+      NetValue: "1111.11"
+    },
+    {
+      Date: "09-Mar-2024", 
+      Category: "Pro",
+      BuyValue: "12345.67",
+      SellValue: "18234.56",
+      NetValue: "-5602.11"
     }
-
-    fetchFiiData()
-  }, [])
-
-  if (loading) {
-    return <div>Loading...</div>
-  }
-
-  if (fiiData.length === 0) {
-    return <div>No FII data available</div>
-  }
+  ]
 
   return (
     <div className="overflow-auto">
@@ -90,4 +79,3 @@ function ValueWithTrend({ value }: { value: number }) {
     </div>
   )
 }
-

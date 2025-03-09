@@ -12,10 +12,12 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { toast } from "react-hot-toast"
 import { useAuth } from "@/context/AuthContext"
+import { useView } from "@/context/ViewContext"
 
 export default function LoginPage() {
   const router = useRouter()
   const { login } = useAuth()
+  const { setCurrentView } = useView()
   const [showPassword, setShowPassword] = useState(false)
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
@@ -28,7 +30,9 @@ export default function LoginPage() {
     try {
       await login(email, password)
       toast.success("Logged in successfully")
-      router.push("/marketplace")
+      
+      setCurrentView("explore")
+      router.push("/explore")
     } catch (error) {
       console.error("Login error:", error)
       toast.error("Failed to login. Please check your credentials.")

@@ -5,32 +5,32 @@ import { Button } from "@/components/ui/button"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import {
   LayoutDashboard,
-  BarChart2,
-  PieChart,
-  Users,
+  LineChart,
+  Store,
+  FileText, 
   DollarSign,
   Briefcase,
   Settings,
   ChevronLeft,
   ChevronRight,
   Zap,
-  CircleDollarSign,
+  Compass,
 } from "lucide-react"
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import { useAuth } from "@/context/AuthContext"
+import { useView } from "@/context/ViewContext"
 
 interface SidebarProps {
-  onNavigate: (view: string) => void
-  currentView: string
-  isOpen: boolean
-  onToggle: () => void
+  isOpen: boolean;
+  onToggle: () => void;
 }
 
-export function Sidebar({ onNavigate, currentView, isOpen, onToggle }: SidebarProps) {
+export function Sidebar({ isOpen, onToggle }: SidebarProps) {
   const [isMobile, setIsMobile] = useState(false)
   const router = useRouter()
   const { isBrokerAuthenticated } = useAuth()
+  const { currentView, setCurrentView } = useView()
 
   useEffect(() => {
     const checkIfMobile = () => setIsMobile(window.innerWidth < 768)
@@ -41,27 +41,27 @@ export function Sidebar({ onNavigate, currentView, isOpen, onToggle }: SidebarPr
 
   const commonNavItems = [
     {
+      title: "Explore",
+      view: "explore",
+      icon: Compass,
+      path: "/explore",
+    },
+    {
       title: "Marketplace",
       view: "marketplace",
-      icon: PieChart,
+      icon: Store,
       path: "/marketplace",
     },
     {
       title: "Analytics",
       view: "analytics",
-      icon: BarChart2,
+      icon: LineChart,
       path: "/analytics",
-    },
-    {
-      title: "Markets",
-      view: "markets",
-      icon: CircleDollarSign,
-      path: "/markets",
     },
     {
       title: "News",
       view: "news",
-      icon: Zap,
+      icon: FileText,
       path: "/news",
     },
   ]
@@ -76,7 +76,7 @@ export function Sidebar({ onNavigate, currentView, isOpen, onToggle }: SidebarPr
     {
       title: "Positions",
       view: "positions",
-      icon: BarChart2,
+      icon: LineChart,
       path: "/positions",
     },
     {
@@ -88,7 +88,7 @@ export function Sidebar({ onNavigate, currentView, isOpen, onToggle }: SidebarPr
     {
       title: "Orderbook",
       view: "orderbook",
-      icon: Users,
+      icon: FileText,
       path: "/orderbook",
     },
     {
@@ -100,7 +100,7 @@ export function Sidebar({ onNavigate, currentView, isOpen, onToggle }: SidebarPr
     {
       title: "Marketplace",
       view: "marketplace",
-      icon: PieChart,
+      icon: Store,
       path: "/marketplace",
     },
     {
@@ -126,13 +126,13 @@ export function Sidebar({ onNavigate, currentView, isOpen, onToggle }: SidebarPr
         )}
       >
         <div className="flex h-14 items-center border-b px-4 justify-between">
-          <button className="flex items-center gap-2 font-semibold" onClick={() => onNavigate("dashboard")}>
+          <button className="flex items-center gap-2 font-semibold" onClick={() => setCurrentView("dashboard")}>
             <Zap className="h-6 w-6 text-primary" />
             {isOpen && <span>Sova</span>}
           </button>
 
-          {isMobile && (
-            <Button variant="ghost" size="icon" onClick={onToggle} className="hidden md:flex">
+          {!isMobile && (
+            <Button variant="ghost" size="icon" onClick={onToggle}>
               {isOpen ? <ChevronLeft className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
             </Button>
           )}
@@ -150,8 +150,8 @@ export function Sidebar({ onNavigate, currentView, isOpen, onToggle }: SidebarPr
                   !isOpen && "px-2",
                 )}
                 onClick={() => {
-                  router.push(item.path); 
-                  onNavigate(item.view);
+                  router.push(item.path);
+                  setCurrentView(item.view);
                   if (isMobile) onToggle();
                 }}
               >
@@ -168,7 +168,7 @@ export function Sidebar({ onNavigate, currentView, isOpen, onToggle }: SidebarPr
             className={cn("w-full", isOpen ? "justify-start" : "justify-center")}
             onClick={() => {
               router.push("/settings");
-              onNavigate("settings");
+              setCurrentView("settings");
               if (isMobile) onToggle();
             }}
           >

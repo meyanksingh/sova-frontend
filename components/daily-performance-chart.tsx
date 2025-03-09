@@ -4,13 +4,14 @@ import { useTheme } from "next-themes"
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts"
 
 const data = [
-  { date: "2024-03-01", pnl: 1500, nifty: 22450 },
-  { date: "2024-03-02", pnl: 1200, nifty: 22500 },
-  { date: "2024-03-03", pnl: 1800, nifty: 22550 },
-  { date: "2024-03-04", pnl: 1600, nifty: 22480 },
-  { date: "2024-03-05", pnl: 2000, nifty: 22600 },
-  { date: "2024-03-06", pnl: 1900, nifty: 22580 },
-  { date: "2024-03-07", pnl: 2200, nifty: 22650 },
+  { time: "09:15", pnl: 0, nifty: 22450 },
+  { time: "10:00", pnl: -200, nifty: 22480 },
+  { time: "11:00", pnl: 800, nifty: 22500 },
+  { time: "12:00", pnl: 300, nifty: 22520 },
+  { time: "13:00", pnl: 1500, nifty: 22550 },
+  { time: "14:00", pnl: 1800, nifty: 22580 },
+  { time: "15:00", pnl: 1500, nifty: 22600 },
+  { time: "15:30", pnl: 2200, nifty: 22650 },
 ]
 
 export function DailyPerformanceChart() {
@@ -23,10 +24,9 @@ export function DailyPerformanceChart() {
         <LineChart data={data} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
           <CartesianGrid strokeDasharray="3 3" stroke={isDark ? "hsl(var(--border))" : "#e0e0e0"} opacity={0.4} />
           <XAxis
-            dataKey="date"
+            dataKey="time"
             stroke={isDark ? "hsl(var(--muted-foreground))" : "#9e9e9e"}
             fontSize={12}
-            tickFormatter={(value) => new Date(value).toLocaleDateString("en-US", { month: "short", day: "numeric" })}
           />
           <YAxis yAxisId="left" stroke={isDark ? "hsl(var(--muted-foreground))" : "#9e9e9e"} fontSize={12} />
           <YAxis
@@ -71,4 +71,3 @@ export function DailyPerformanceChart() {
     </div>
   )
 }
-

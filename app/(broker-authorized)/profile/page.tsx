@@ -1,11 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Mail, Phone, MapPin, Building, CreditCard, User, Shield } from "lucide-react";
 import AuthorizedLayout from "@/app/(authorized)/AuthorizedLayout";
-import { getProfile } from "@/lib/api";
 
 interface Profile {
   ClientName: string;
@@ -26,55 +24,35 @@ interface Profile {
 }
 
 export default function ProfilePage() {
-  const [profile, setProfile] = useState<Profile | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    const fetchProfile = async () => {
-      try {
-        setLoading(true);
-        const response = await getProfile();
-        // Ensure response has correct structure
-        if (response?.data?.result) {
-          setProfile(response.data.result);
-        } else {
-          throw new Error("Invalid profile data format");
-        }
-      } catch (err) {
-        setError("Failed to fetch profile. Please try again.");
-      } finally {
-        setLoading(false);
+  const profile: Profile = {
+    ClientName: "Rajesh Kumar Sharma",
+    ClientId: "RKSM789456",
+    EmailId: "rajesh.sharma@gmail.com",
+    MobileNo: "+91 98765 43210",
+    PAN: "ABRPS4321K",
+    ResidentialAddress: "502, Sai Apartment, 15th Cross, Malleshwaram, Bangalore - 560003, Karnataka",
+    OfficeAddress: "WeWork Galaxy, 43/1, Residency Road, Bangalore - 560025, Karnataka",
+    ClientExchangeDetailsList: {
+      "NSE": {
+        Enabled: true,
+        ClientId: "RKSM789456",
+        ParticipantCode: "IN303719"
+      },
+      "BSE": {
+        Enabled: true,
+        ClientId: "RKSM789456",
+        ParticipantCode: "IN303719"
+      },
+      "MCX": {
+        Enabled: false,
+        ClientId: "RKSM789456",
+        ParticipantCode: null
       }
-    };
-
-    fetchProfile();
-  }, []);
-
-  if (loading) {
-    return <div className="flex items-center justify-center min-h-screen">Loading profile...</div>;
-  }
-
-
-  if (!profile) {
-    return (
-      <AuthorizedLayout>
-        <div className="container mx-auto p-6 space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-primary">Profile Information</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="flex flex-col items-center justify-center py-12 text-center">
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">No Profile Available</h3>
-                <p className="text-gray-500">You currently don't have a profile set up.</p>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-      </AuthorizedLayout>
-    );
-  }
+    },
+    IsInvestorClient: true,
+    IsProClient: false,
+    IsPOAEnabled: true
+  };
 
   return (
     <AuthorizedLayout> 
@@ -133,7 +111,7 @@ export default function ProfilePage() {
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              {Object.entries(profile.ClientExchangeDetailsList || {}).map(([exchange, details]) => (
+              {Object.entries(profile.ClientExchangeDetailsList).map(([exchange, details]) => (
                 <Card key={exchange}>
                   <CardHeader>
                     <div className="flex items-center justify-between">

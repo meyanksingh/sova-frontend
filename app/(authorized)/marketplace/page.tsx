@@ -4,9 +4,10 @@ import { StrategyCard } from "@/components/strategy-card"
 import { toast } from "sonner"
 import AuthorizedLayout from "../AuthorizedLayout"
 import { useRouter } from "next/navigation"
+import { useStrategy } from "@/context/StrategyContext"
 
-// Hardcoded strategies data
-const mockStrategies = [
+// Export the mock strategies for reuse
+export const mockStrategies = [
   {
     id: "1",
     name: "Momentum Trading",
@@ -443,24 +444,22 @@ interface Strategy {
 }
 
 export default function StrategiesPage() {
-  const [strategies, setStrategies] = useState<Strategy[]>([])
-  const [loading, setLoading] = useState(true)
   const router = useRouter()
+  const [loading, setLoading] = useState(true)
+  const [strategies, setStrategies] = useState<Strategy[]>([])
+  const { setSelectedStrategy } = useStrategy()
 
   useEffect(() => {
     const fetchStrategies = async () => {
-      setLoading(true)
       try {
-        // Simulate API delay
+        // Simulate loading from API
         setTimeout(() => {
-          setStrategies(mockStrategies);
-          setLoading(false);
-        }, 800);
-      } catch (err) {
-        console.error("Error fetching strategies:", err)
-        toast.error("Failed to load strategies")
-        setStrategies([])
-        setLoading(false);
+          setStrategies(mockStrategies)
+          setLoading(false)
+        }, 500)
+      } catch (error) {
+        console.error("Error fetching strategies:", error)
+        setLoading(false)
       }
     }
 
@@ -473,12 +472,22 @@ export default function StrategiesPage() {
       return;
     }
 
-    // Simulate deployment success
-    setTimeout(() => {
-      toast.success("Strategy deployed successfully");
-      router.push(`/strategy/${strategyId}`);
-    }, 500);
+    // Find the selected strategy from our data
+    const selectedStrategy = strategies.find(s => s.id === strategyId);
+    
+    if (!selectedStrategy) {
+      toast.error("Strategy not found");
+      return;
+    }
+    
+    // Save the selected strategy in the context
+    setSelectedStrategy(selectedStrategy);
+    
+    // Show success message and navigate
+    toast.success("Strategy deployed successfully");
+    router.push(`/strategy/${strategyId}`);
   }
+
   return (
     <div className="min-h-screen bg-background">
       <AuthorizedLayout>

@@ -1,11 +1,9 @@
 "use client"
 
-import { useEffect, useState } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Badge } from "@/components/ui/badge"
 import { BrokerAuthWrapper } from "../broker-auth-wrapper"
-import { getOrderBook } from "@/lib/api"
 
 interface Order {
   AppOrderID: number;
@@ -17,33 +15,122 @@ interface Order {
   OrderStatus: string;
   ExchangeSegment: string;
   OrderGeneratedDateTime: string;
-  CancelRejectReason?: string; // Added to handle the new response structure
 }
 
+const dummyOrders: Order[] = [
+  {
+    AppOrderID: 1,
+    TradingSymbol: "BANKNIFTY25MAR47000CE",
+    OrderType: "LIMIT",
+    OrderSide: "BUY",
+    OrderQuantity: 25,
+    OrderPrice: 420.50,
+    OrderStatus: "Completed",
+    ExchangeSegment: "NFO",
+    OrderGeneratedDateTime: "2024-03-10T09:15:00.000Z"
+  },
+  {
+    AppOrderID: 2,
+    TradingSymbol: "BANKNIFTY25MAR46500PE",
+    OrderType: "MARKET",
+    OrderSide: "SELL",
+    OrderQuantity: 15,
+    OrderPrice: 380.25,
+    OrderStatus: "Completed",
+    ExchangeSegment: "NFO",
+    OrderGeneratedDateTime: "2024-03-10T09:20:00.000Z"
+  },
+  {
+    AppOrderID: 3,
+    TradingSymbol: "RELIANCE",
+    OrderType: "LIMIT",
+    OrderSide: "BUY",
+    OrderQuantity: 50,
+    OrderPrice: 2450.75,
+    OrderStatus: "Pending",
+    ExchangeSegment: "NSE",
+    OrderGeneratedDateTime: "2024-03-10T09:25:00.000Z"
+  },
+  {
+    AppOrderID: 4,
+    TradingSymbol: "HDFCBANK",
+    OrderType: "MARKET",
+    OrderSide: "SELL",
+    OrderQuantity: 100,
+    OrderPrice: 1580.50,
+    OrderStatus: "Rejected",
+    ExchangeSegment: "NSE",
+    OrderGeneratedDateTime: "2024-03-10T09:30:00.000Z"
+  },
+  {
+    AppOrderID: 5,
+    TradingSymbol: "BANKNIFTY25MARFUT",
+    OrderType: "LIMIT",
+    OrderSide: "BUY",
+    OrderQuantity: 5,
+    OrderPrice: 46750.25,
+    OrderStatus: "Completed",
+    ExchangeSegment: "NFO",
+    OrderGeneratedDateTime: "2024-03-10T09:35:00.000Z"
+  },
+  {
+    AppOrderID: 6,
+    TradingSymbol: "NIFTY25MAR22000CE",
+    OrderType: "MARKET",
+    OrderSide: "SELL",
+    OrderQuantity: 75,
+    OrderPrice: 125.40,
+    OrderStatus: "Completed",
+    ExchangeSegment: "NFO",
+    OrderGeneratedDateTime: "2024-03-10T09:40:00.000Z"
+  },
+  {
+    AppOrderID: 7,
+    TradingSymbol: "TCS",
+    OrderType: "LIMIT",
+    OrderSide: "BUY",
+    OrderQuantity: 25,
+    OrderPrice: 3750.25,
+    OrderStatus: "Pending",
+    ExchangeSegment: "NSE",
+    OrderGeneratedDateTime: "2024-03-10T09:45:00.000Z"
+  },
+  {
+    AppOrderID: 8,
+    TradingSymbol: "INFY",
+    OrderType: "MARKET",
+    OrderSide: "SELL",
+    OrderQuantity: 75,
+    OrderPrice: 1450.80,
+    OrderStatus: "Rejected",
+    ExchangeSegment: "NSE",
+    OrderGeneratedDateTime: "2024-03-10T09:50:00.000Z"
+  },
+  {
+    AppOrderID: 9,
+    TradingSymbol: "BANKNIFTY25MAR48000CE",
+    OrderType: "LIMIT",
+    OrderSide: "BUY",
+    OrderQuantity: 15,
+    OrderPrice: 125.40,
+    OrderStatus: "Completed",
+    ExchangeSegment: "NFO",
+    OrderGeneratedDateTime: "2024-03-10T09:55:00.000Z"
+  },
+  {
+    AppOrderID: 10,
+    TradingSymbol: "BANKNIFTY25MAR46000PE",
+    OrderType: "MARKET",
+    OrderSide: "SELL",
+    OrderQuantity: 20,
+    OrderPrice: 275.80,
+    OrderStatus: "Completed",
+    ExchangeSegment: "NFO",
+    OrderGeneratedDateTime: "2024-03-10T10:00:00.000Z"
+  }
+];
+
 export default function Orderbook() {
-  const [orders, setOrders] = useState<Order[]>([])
-  const [isLoading, setIsLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
-
-  useEffect(() => {
-    const fetchOrders = async () => {
-      try {
-        setIsLoading(true);
-        const response = await getOrderBook();
-        const data = response.data.result || []; // Adjusted to match the new response structure
-
-        // Ensure API response has orders, otherwise set an empty array
-        setOrders(data.length ? data : []);
-      } catch (err) {
-        setError("Failed to fetch orders. Please try again.");
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchOrders();
-  }, []);
-
   const getStatusVariant = (status: string) => {
     switch (status) {
       case 'Completed': return 'default';
@@ -52,9 +139,6 @@ export default function Orderbook() {
       default: return 'outline';
     }
   };
-
-  if (isLoading) return <div className="flex justify-center items-center h-screen">Loading...</div>;
-  if (error) return <div className="flex justify-center items-center h-screen text-red-500">{error}</div>;
 
   return (
     <div className="min-h-screen bg-background">
@@ -65,7 +149,7 @@ export default function Orderbook() {
               <CardTitle className="text-primary">Orderbook</CardTitle>
             </CardHeader>
             <CardContent>
-              {orders.length === 0 ? (
+              {dummyOrders.length === 0 ? (
                 <div className="flex flex-col items-center justify-center py-12 text-center">
                   <h3 className="text-lg font-semibold text-gray-900 mb-2">No Orders Found</h3>
                   <p className="text-gray-500">You haven't placed any orders yet.</p>
@@ -85,7 +169,7 @@ export default function Orderbook() {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {orders.map((order) => (
+                    {dummyOrders.map((order) => (
                       <TableRow key={order.AppOrderID}>
                         <TableCell>{order.TradingSymbol}</TableCell>
                         <TableCell>{order.OrderType}</TableCell>

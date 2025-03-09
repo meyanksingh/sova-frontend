@@ -1,3 +1,5 @@
+"use client"
+
 import { Badge } from "@/components/ui/badge"
 
 interface Parameter {
@@ -5,64 +7,62 @@ interface Parameter {
   value: string | number
 }
 
-interface Performance {
-  totalReturn: string
-  sharpeRatio: number
-  maxDrawdown: string
-}
-
-interface StrategyProps {
+interface StrategyDetailsProps {
   strategy: {
     id: string
     name: string
     description: string
     category: string
     parameters: Parameter[]
-    performance: Performance
+    performance: {
+      totalReturn: string
+      sharpeRatio: number
+      maxDrawdown: string
+    }
+    status: string
   }
 }
 
-export default function StrategyDetails({ strategy }: StrategyProps) {
+export default function StrategyDetails({ strategy }: StrategyDetailsProps) {
   return (
-    
     <div className="space-y-4">
       <div>
-        <Badge variant="outline" className="mb-2">
+        <h4 className="text-sm font-medium text-muted-foreground">Strategy ID</h4>
+        <p className="text-sm">{strategy.id}</p>
+      </div>
+      
+      <div>
+        <h4 className="text-sm font-medium text-muted-foreground">Description</h4>
+        <p className="text-sm">{strategy.description}</p>
+      </div>
+      
+      <div>
+        <h4 className="text-sm font-medium text-muted-foreground">Category</h4>
+        <Badge variant="secondary" className="mt-1">
           {strategy.category}
         </Badge>
-        <p className="text-sm text-muted-foreground">{strategy.description}</p>
       </div>
-
+      
       <div>
-        <h3 className="text-lg font-semibold mb-2">Parameters</h3>
-        <div className="grid grid-cols-2 gap-2">
+        <h4 className="text-sm font-medium text-muted-foreground">Parameters</h4>
+        <div className="grid grid-cols-2 gap-2 mt-1">
           {strategy.parameters.map((param, index) => (
-            <div key={index} className="bg-muted/50 p-2 rounded">
-              <div className="text-sm text-muted-foreground">{param.name}</div>
-              <div className="font-medium">{param.value}</div>
+            <div key={index} className="text-sm flex justify-between border rounded p-2">
+              <span className="text-muted-foreground">{param.name}:</span>
+              <span className="font-medium">{param.value}</span>
             </div>
           ))}
         </div>
       </div>
-
+      
       <div>
-        <h3 className="text-lg font-semibold mb-2">Performance</h3>
-        <div className="grid grid-cols-3 gap-2">
-          <div className="bg-muted/50 p-2 rounded">
-            <div className="text-sm text-muted-foreground">Total Return</div>
-            <div className="font-medium text-green-500">{strategy.performance.totalReturn}</div>
-          </div>
-          <div className="bg-muted/50 p-2 rounded">
-            <div className="text-sm text-muted-foreground">Sharpe Ratio</div>
-            <div className="font-medium">{strategy.performance.sharpeRatio}</div>
-          </div>
-          <div className="bg-muted/50 p-2 rounded">
-            <div className="text-sm text-muted-foreground">Max Drawdown</div>
-            <div className="font-medium text-red-500">{strategy.performance.maxDrawdown}</div>
-          </div>
-        </div>
+        <h4 className="text-sm font-medium text-muted-foreground">Status</h4>
+        <Badge variant={strategy.status === "Active" ? "success" : "secondary"} className="mt-1">
+          {strategy.status}
+        </Badge>
       </div>
     </div>
   )
 }
+
 

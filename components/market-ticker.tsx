@@ -1,17 +1,38 @@
 "use client";
 
-import { useMarketData } from "@/context/MarketDataContext";
+import { useEffect, useState } from "react";
 import { ArrowUpIcon, ArrowDownIcon } from "lucide-react";
 import { Marquee } from "./magicui/marquee";
 
+const initialData = [
+  { name: "NIFTY", value: 22450.75, change: 0.45 },
+  { name: "BANKNIFTY", value: 47320.50, change: -0.32 },
+  { name: "SENSEX", value: 74125.25, change: 0.28 },
+  { name: "FINNIFTY", value: 21840.60, change: -0.15 }
+];
+
 export function MarketTicker() {
-  const { marketData } = useMarketData();
+  const [marketData, setMarketData] = useState(initialData);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setMarketData(prevData => 
+        prevData.map(item => ({
+          ...item,
+          value: item.value + (Math.random() - 0.5) * 10,
+          change: Number((item.change + (Math.random() - 0.5) * 0.1).toFixed(2))
+        }))
+      );
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <div className="relative flex w-full flex-col items-center justify-center overflow-hidden">
       <Marquee pauseOnHover className="[--duration:20s] border">
-        {[...marketData, ...marketData].map((item) => (
-          <div key={item.name} className="flex items-center p-2">
+        {[...marketData, ...marketData].map((item, index) => (
+          <div key={`${item.name}-${index}`} className="flex items-center p-2">
             <span className="font-bold mr-2 text-primary">{item.name}</span>
             <span className="mr-2">
               {item.value.toLocaleString(undefined, {
