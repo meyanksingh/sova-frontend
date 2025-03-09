@@ -32,7 +32,7 @@ export default function RegisterPage() {
     try {
       await register(name, email, password)
       toast.success("Account created successfully")
-      router.push("/marketplace")
+      router.push("/explore")
     } catch (error) {
       console.error("Registration error:", error)
       toast.error("Failed to create account. Please try again.")

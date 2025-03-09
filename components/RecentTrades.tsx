@@ -1,11 +1,11 @@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 
 const recentTrades = [
-  { date: "2023-06-01", asset: "AAPL", type: "Buy", quantity: 100, price: 150.25 },
-  { date: "2023-06-02", asset: "GOOGL", type: "Sell", quantity: 50, price: 2500.75 },
-  { date: "2023-06-03", asset: "MSFT", type: "Buy", quantity: 75, price: 300.5 },
-  { date: "2023-06-04", asset: "AMZN", type: "Sell", quantity: 25, price: 3200.0 },
-  { date: "2023-06-05", asset: "TSLA", type: "Buy", quantity: 30, price: 650.75 },
+  { date: "2024-01-15", asset: "BANKNIFTY 47500 CE", type: "Buy", quantity: 25, price: 150.25 },
+  { date: "2024-01-15", asset: "BANKNIFTY 47000 PE", type: "Sell", quantity: 25, price: 85.50 },
+  { date: "2024-01-16", asset: "BANKNIFTY 47200 CE", type: "Buy", quantity: 50, price: 125.75 },
+  { date: "2024-01-16", asset: "BANKNIFTY 46800 PE", type: "Sell", quantity: 25, price: 95.25 },
+  { date: "2024-01-17", asset: "BANKNIFTY 47300 CE", type: "Buy", quantity: 75, price: 110.50 },
 ]
 
 export default function RecentTrades() {
@@ -27,11 +27,10 @@ export default function RecentTrades() {
             <TableCell>{trade.asset}</TableCell>
             <TableCell className={trade.type === "Buy" ? "text-green-500" : "text-red-500"}>{trade.type}</TableCell>
             <TableCell>{trade.quantity}</TableCell>
-            <TableCell>${trade.price.toFixed(2)}</TableCell>
+            <TableCell>₹{trade.price.toFixed(2)}</TableCell>
           </TableRow>
         ))}
       </TableBody>
     </Table>
   )
 }
-

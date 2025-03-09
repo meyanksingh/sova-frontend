@@ -1,10 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { ArrowUpIcon, ArrowDownIcon } from "lucide-react";
 import { Marquee } from "./magicui/marquee";
 
-const initialData = [
+const marketData = [
   { name: "NIFTY", value: 22450.75, change: 0.45 },
   { name: "BANKNIFTY", value: 47320.50, change: -0.32 },
   { name: "SENSEX", value: 74125.25, change: 0.28 },
@@ -12,22 +11,6 @@ const initialData = [
 ];
 
 export function MarketTicker() {
-  const [marketData, setMarketData] = useState(initialData);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setMarketData(prevData => 
-        prevData.map(item => ({
-          ...item,
-          value: item.value + (Math.random() - 0.5) * 10,
-          change: Number((item.change + (Math.random() - 0.5) * 0.1).toFixed(2))
-        }))
-      );
-    }, 1000);
-
-    return () => clearInterval(interval);
-  }, []);
-
   return (
     <div className="relative flex w-full flex-col items-center justify-center overflow-hidden">
       <Marquee pauseOnHover className="[--duration:20s] border">
