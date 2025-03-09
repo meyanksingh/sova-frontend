@@ -492,7 +492,6 @@ export default function StrategiesPage() {
     <div className="min-h-screen bg-background">
       <AuthorizedLayout>
         <div className="container mx-auto p-6">
-          <h1 className="text-2xl font-bold mb-4 text-primary">Marketplace</h1>
           {loading ? (
             <div className="flex items-center justify-center h-[calc(100vh-4rem)]">
               <div className="text-lg text-muted-foreground">Loading strategies...</div>

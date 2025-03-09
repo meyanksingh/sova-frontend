@@ -11,7 +11,6 @@ export default function AnalyticsPage() {
   return (
     <AuthorizedLayout>
     <div className="container mx-auto p-6 space-y-4">
-      <h1 className="text-3xl font-bold mb-2">Financial Analytics</h1>
 
       {/* Compact metrics row */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
