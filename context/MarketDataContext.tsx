@@ -75,8 +75,12 @@ export function MarketDataProvider({ children }: { children: ReactNode }) {
     if (wsRef.current) {
       wsRef.current.close();
     }
-
-    const ws = new WebSocket("wss://api.meyank.me/ws/");
+    const SOCKETURL=process.env.NEXT_PUBLIC_API_SOCKET_URL
+    if (!SOCKETURL) {
+      console.error("WebSocket URL is not defined");
+      return;
+    }
+    const ws = new WebSocket(SOCKETURL);
     wsRef.current = ws;
 
     ws.onopen = () => {
